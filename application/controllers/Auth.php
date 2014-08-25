@@ -11,36 +11,44 @@ class Auth extends CI_Controller {
     }
 
     public function index() {
+        // fungsi yang pertama kali di-load -- generate view login
+        if (!is_null($this->session->userdata('username'))) {
+            redirect('home');
+        }
         $this->load->view('login');
     }
 
-    // Example method initializing KCFinder to enable uploads.
+    // fungsi untuk login
     public function login() {
-
         $valid = false;
         $users = $this->model_user->get_user();
-        $name = $this->input->post('username'); // mengambil user nama dari text field yang ada di form login
-        $password = $this->input->post('password'); // mengambil password dari text field yang ada di form login
-        //kondisi pengecekan apakah username dan password yang dimasukkan telah sesuai dengan benar atau tidak
+        // mengambil username dari text field yang ada di form login
+        $name = $this->input->post('username');
+        // mengambil password dari text field yang ada di form login
+        $password = $this->input->post('password');
+        $urlke = $this->session->userdata('urlke') == NULL ? 'home' : $this->session->userdata('urlke');
+        // kondisi pengecekan apakah username dan password yang dimasukkan telah sesuai atau tidak
         foreach ($users->result() as $row) {
             if ($name == $row->user_name && md5($password) == $row->user_pass) {
+//            if ($name == "admin" && $password == "admin") {
                 $valid = true;
                 switch ($row->user_role) {
-                    case 7:
-                        $role = 'Admin';
-                        break;
                     case 1:
-                        $role = 'User';
+                        $role = 'Administrator';
+                        break;
+                    case 2:
+                        $role = 'Counter';
                         break;
                     default:
-                        $role = 'User Biasa';
+                        $role = 'User';
                         break;
                 }
-                //setting session terhadap data user
+                // setting session terhadap data user
                 $newdata = array(
                     'username' => $name,
                     'role' => $role,
-                    'nama' => $row->Nama,
+                    'role_id' => $row->user_role,
+                    'nama' => $row->user_data,
                     'id' => $row->user_id
                 );
 
@@ -48,24 +56,33 @@ class Auth extends CI_Controller {
 
                 break;
             }
-        }//end foreach
-        //apabila login telah sesuai dengan username dan password maka user akan masuk halaman utama
+        } // end foreach
+        // apabila login berhasil maka user akan masuk halaman utama
         if ($valid) {
-            redirect('welcome');
-            // redirect('homepage');
+            $data = array(
+                'user_status' => "1",
+                'user_pos' => "1"
+            );
+            $this->model_user->update($row->user_id, $data);
+            redirect($urlke);
         }
-        //apabila login tidak sesuai dengan username dan password maka user akan masuk halaman login
+        // apabila login gagal maka user akan kembali ke halaman login
         else {
+            $newdata = array(
+                'pesan' => "Username / Password salah"
+            );
+            $this->session->set_userdata($newdata);
             redirect('auth/fals');
         }
     }
 
+    // buat mengirimkan informasi kesalahan
     public function fals() {
-        $data['false'] = "Maaf Username / Password salah";
+        $data['false'] = $this->session->userdata('pesan');
         $this->load->view('login', $data);
     }
 
-    // Example method ending KCFinder session.
+    // buat logout
     public function logout() {
         $this->session->sess_destroy();
         redirect('auth');
