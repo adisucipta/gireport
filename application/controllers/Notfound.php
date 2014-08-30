@@ -6,7 +6,13 @@ if (!defined('BASEPATH'))
 class Notfound extends CI_Controller {
 
     public function index() {
-        $this->load->view('header');
+        // notifikasi
+        $this->load->model('model_notif', '', true);
+        $datah['unreadcount'] = $this->model_notif->get_countunread()->row();
+        $datah['unreadnotif'] = $this->model_notif->get_notifunread();
+        
+        // generate view
+        $this->load->view('header',$datah);
         $this->load->view('error404');
         $this->load->view('footer');
     }

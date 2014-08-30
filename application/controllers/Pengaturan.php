@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Tentang extends CI_Controller {
+class Pengaturan extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -16,6 +16,8 @@ class Tentang extends CI_Controller {
             $this->session->set_userdata($newdata);
             redirect('auth/fals');
         }
+        $this->load->helper('date');
+        $this->load->helper('number');
         $this->load->model('model_notif', '', true);
     }
 
@@ -23,12 +25,22 @@ class Tentang extends CI_Controller {
         // notifikasi
         $datah['unreadcount'] = $this->model_notif->get_countunread()->row();
         $datah['unreadnotif'] = $this->model_notif->get_notifunread();
+        $datah['menu_atur'] = TRUE;
         
-        // mengaktifkan menu tentang
-        $datah['menu_tentang'] = TRUE;
+        $this->load->view('header',$datah);
+        $this->load->view('pengaturan_view');
+        $this->load->view('footer');
+    }
+    
+    public function profil() {
+        // notifikasi
+        $datah['unreadcount'] = $this->model_notif->get_countunread()->row();
+        $datah['unreadnotif'] = $this->model_notif->get_notifunread();
+        $datah['menu_atur'] = TRUE;
+        $datah['menu_profil'] = TRUE;
         
-        $this->load->view('header', $datah);
-        $this->load->view('tentang');
+        $this->load->view('header',$datah);
+        $this->load->view('profil_view');
         $this->load->view('footer');
     }
 

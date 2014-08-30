@@ -8,6 +8,7 @@ class Auth extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('model_user', '', true);
+        $this->load->model('model_notif', '', true);
     }
 
     public function index() {
@@ -20,7 +21,7 @@ class Auth extends CI_Controller {
 
     // fungsi untuk login
     public function login() {
-        $valid = false;
+        $valid = $hak = false;
         $users = $this->model_user->get_user();
         // mengambil username dari text field yang ada di form login
         $name = $this->input->post('username');
@@ -30,46 +31,50 @@ class Auth extends CI_Controller {
         // kondisi pengecekan apakah username dan password yang dimasukkan telah sesuai atau tidak
         foreach ($users->result() as $row) {
             if ($name == $row->user_name && md5($password) == $row->user_pass) {
-//            if ($name == "admin" && $password == "admin") {
                 $valid = true;
-                switch ($row->user_role) {
-                    case 1:
-                        $role = 'Administrator';
-                        break;
-                    case 2:
-                        $role = 'Counter';
-                        break;
-                    default:
-                        $role = 'User';
-                        break;
-                }
-                // setting session terhadap data user
-                $newdata = array(
-                    'username' => $name,
-                    'role' => $role,
-                    'role_id' => $row->user_role,
-                    'nama' => $row->user_data,
-                    'id' => $row->user_id
-                );
+                if($row->user_role == '1') {
+                    $hak = true;
 
-                $this->session->set_userdata($newdata);
+                    $role = 'Administrator';
+                    // setting session terhadap data user
+                    $newdata = array(
+                        'username' => $name,
+                        'role' => $role,
+                        'role_id' => $row->user_role,
+                        'nama' => $row->user_data,
+                        'id' => $row->user_id
+                    );
 
-                break;
-            }
+                    $this->session->set_userdata($newdata);
+
+                    break;
+                } // cek hak
+            } // cek username dan password
         } // end foreach
+        
         // apabila login berhasil maka user akan masuk halaman utama
-        if ($valid) {
+        if ($valid && $hak) {
             $data = array(
                 'user_status' => "1",
                 'user_pos' => "1"
             );
+            $datanotif = array(
+                'notif_teks' => "User ". $name ." login",
+                'notif_tipe' => "1",
+                'notif_baca' => "0"
+            );
             $this->model_user->update($row->user_id, $data);
+            $this->model_notif->insert($datanotif);
             redirect($urlke);
         }
         // apabila login gagal maka user akan kembali ke halaman login
         else {
+            $pesan = "";
+            if(!$valid) $pesan = "Username / Password salah";
+            elseif(!$hak) $pesan = "Anda tidak punya hak untuk mengakses Dashboard";
+            
             $newdata = array(
-                'pesan' => "Username / Password salah"
+                'pesan' => $pesan
             );
             $this->session->set_userdata($newdata);
             redirect('auth/fals');
@@ -84,6 +89,17 @@ class Auth extends CI_Controller {
 
     // buat logout
     public function logout() {
+        $datanotif = array(
+            'notif_teks' => "User " . $this->session->userdata('username') . " logout",
+            'notif_tipe' => "3",
+            'notif_baca' => "0"
+        );
+        $data = array(
+            'user_status' => "0",
+            'user_pos' => "0"
+        );
+        $this->model_user->update($this->session->userdata('id'), $data);
+        $this->model_notif->insert($datanotif);
         $this->session->sess_destroy();
         redirect('auth');
     }

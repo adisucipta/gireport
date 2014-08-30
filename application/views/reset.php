@@ -5,9 +5,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="<?php echo base_url();?>assets/login/css/preview.css" rel="stylesheet" />
-    <script src="<?php echo base_url();?>assets/login/js/modernizr.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <link href="<?= base_url();?>assets/login/css/preview.css" rel="stylesheet" />
+    <script src="<?= base_url();?>assets/login/js/modernizr.js"></script>
+    <link href='<?= base_url();?>assets/roboto/robotcss.css' rel='stylesheet' type='text/css'>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> -->
 </head>
 <body class="eternity-form">
    
@@ -22,7 +23,7 @@
                     <h3>Forget Password</h3>
                 </div>
                 <div class="forgot-content">
-                    <form class="form-1" action="<?php echo base_url();?>index.php/auth/reset" method="post">
+                    <form class="form-1" action="<?= base_url();?>index.php/auth/reset" method="post">
                         <div class="textbox-wrap">
                             <div class="input-group">
                                 <span class="input-group-addon "><i class="icon-user icon-color"></i></span>
@@ -36,7 +37,7 @@
                             </div>
                         </div>
                         <div class="forget-form-action clearfix">
-                            <a class="btn btn-success pull-left blue-btn" href="<?php echo base_url();?>index.php/auth"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
+                            <a class="btn btn-success pull-left blue-btn" href="<?= base_url();?>index.php/auth"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
                             <button type="submit" class="btn btn-success pull-right green-btn">Submit &nbsp;&nbsp; <i class="icon-chevron-right"></i></button>
                         </div>
                     </form>
@@ -47,13 +48,13 @@
         </div>
     </section>
 
-    <script src="<?php echo base_url();?>assets/login/js/jquery-1.9.1.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/bootstrap.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/respond.src.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/jquery.icheck.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/placeholders.min.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/waypoints.min.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/jquery.panelSnap.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery-1.9.1.js"></script>
+    <script src="<?= base_url();?>assets/login/js/bootstrap.js"></script>
+    <script src="<?= base_url();?>assets/login/js/respond.src.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery.icheck.js"></script>
+    <script src="<?= base_url();?>assets/login/js/placeholders.min.js"></script>
+    <script src="<?= base_url();?>assets/login/js/waypoints.min.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery.panelSnap.js"></script>
 
     <script type="text/javascript">
         $(function () {

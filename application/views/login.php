@@ -5,9 +5,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="<?php echo base_url();?>assets/login/css/preview.css" rel="stylesheet" />
-    <script src="<?php echo base_url();?>assets/login/js/modernizr.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <link href="<?= base_url();?>assets/login/css/preview.css" rel="stylesheet" />
+    <script src="<?= base_url();?>assets/login/js/modernizr.js"></script>
+    <link href='<?= base_url();?>assets/roboto/robotcss.css' rel='stylesheet' type='text/css'>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> -->
 </head>
 <body class="eternity-form">
    
@@ -17,7 +18,7 @@
 
             <div class="login-form-section">
                 <div class="login-content " data-animation="bounceIn">
-                    <form class="form-1" action="<?php echo base_url();?>index.php/auth/login" method="post">
+                    <form class="form-1" action="<?= base_url();?>index.php/auth/login" method="post">
                         <div class="section-title">
                             <h3>Login Dashboard Report</h3>
                         </div>
@@ -39,17 +40,17 @@
                                 <div class="custom-checkbox">
                                     <input type="checkbox" checked name="iCheck">
                                 </div>
-                                <span class="checkbox-text pull-left">&nbsp;Remember Me</span>
+                                <span class="checkbox-text pull-left">&nbsp;Ingat Saya</span>
                             </div>
-                            <button type="submit" class="btn btn-success pull-right green-btn">LogIn &nbsp; <i class="icon-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-success pull-right green-btn">Masuk &nbsp; <i class="icon-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>
                 <div class="login-form-links link2 " data-animation="fadeInRightBig" data-animation-delay=".4s">
-                    <h4 class="green">Forget your Password?</h4>
-                    <span>Dont worry</span>
-                    <a href="<?php echo base_url();?>index.php/reset" class="green">Click Here</a>
-                    <span>to Get New One</span>
+                    <h4 class="green">Lupa Password?</h4>
+                    <span>Silakan</span>
+                    <a href="<?= base_url();?>index.php/reset" class="green">Klik Ini</a>
+                    <span>tuk dapatkan yang baru</span>
                 </div>
             </div>
 
@@ -58,13 +59,13 @@
         </div>
     </section>
 
-    <script src="<?php echo base_url();?>assets/login/js/jquery-1.9.1.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/bootstrap.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/respond.src.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/jquery.icheck.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/placeholders.min.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/waypoints.min.js"></script>
-    <script src="<?php echo base_url();?>assets/login/js/jquery.panelSnap.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery-1.9.1.js"></script>
+    <script src="<?= base_url();?>assets/login/js/bootstrap.js"></script>
+    <script src="<?= base_url();?>assets/login/js/respond.src.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery.icheck.js"></script>
+    <script src="<?= base_url();?>assets/login/js/placeholders.min.js"></script>
+    <script src="<?= base_url();?>assets/login/js/waypoints.min.js"></script>
+    <script src="<?= base_url();?>assets/login/js/jquery.panelSnap.js"></script>
 
     <script type="text/javascript">
         $(function () {
