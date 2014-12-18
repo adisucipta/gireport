@@ -25,8 +25,8 @@
                             <!-- small box -->
                             <div class="small-box bg-aqua">
                                 <div class="inner">
-                                    <h3>
-                                        <?=$boxlayani;?>
+                                    <h3 id="boxlayani">
+                                        0
                                     </h3>
                                     <p>
                                         Orang Terlayani
@@ -44,8 +44,8 @@
                             <!-- small box -->
                             <div class="small-box bg-green">
                                 <div class="inner">
-                                    <h3>
-                                        <?=$boxsurvei;?>
+                                    <h3 id="boxsurvei">
+                                        0
                                     </h3>
                                     <p>
                                         Survei
@@ -63,8 +63,8 @@
                             <!-- small box -->
                             <div class="small-box bg-yellow">
                                 <div class="inner">
-                                    <h3>
-                                        <?=$boxcounter;?>
+                                    <h3 id="boxcounter">
+                                        0
                                     </h3>
                                     <p>
                                         Counter Online
@@ -82,8 +82,8 @@
                             <!-- small box -->
                             <div class="small-box bg-red">
                                 <div class="inner">
-                                    <h3>
-                                        <?=$boxantri;?>
+                                    <h3 id="boxantri">
+                                        0
                                     </h3>
                                     <p>
                                         Antrian
@@ -111,7 +111,7 @@
                                 <ul class="nav nav-tabs pull-right">
                                     <li class="active"><a href="#grafik-layanan" data-toggle="tab">Layanan</a></li>
                                     <li><a href="#grafik-counter" data-toggle="tab">Counter</a></li>
-                                    <li class="pull-left header"><i class="fa fa-inbox"></i> Grafik Layanan <?=mdate("%d-%m-%Y", gmt_to_local(now(), "UP5"));?></li>
+                                    <li class="pull-left header"><i class="fa fa-inbox"></i> Grafik Layanan <?=mdate("%d-%m-%Y", now());?></li>
                                 </ul>
                                 <div class="tab-content no-padding">
                                     <!-- Morris chart - Sales -->
@@ -128,17 +128,17 @@
                             <div class="box box-info">
                                 <div class="box-header">
                                     <i class="fa fa-text-width"></i>
-                                    <h3 class="box-title">Description</h3>
+                                    <h3 class="box-title">Informasi</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
-                                    <dl>
-                                        <dt>Description lists</dt>
-                                        <dd>A description list is perfect for defining terms.</dd>
-                                        <dt>Euismod</dt>
-                                        <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-                                        <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-                                        <dt>Malesuada porta</dt>
-                                        <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                    <dl> 
+                                        <dt>Rendered in</dt>
+                                        <dd>{elapsed_time} sec</dd>
+                                        <dt>Memory Usage</dt>
+                                        <dd>{memory_usage}</dd>
+                                        <dt>User Agent</dt>
+                                        <dd><?=$this->input->ip_address();?></dd>
+                                        <dd><?=$this->input->user_agent();?></dd>
                                     </dl>
                                 </div><!-- /.box-body -->
                             </div>                       
@@ -159,10 +159,6 @@
         <!-- Morris.js charts -->
 	<script src="<?= base_url() ;?>assets/js/plugins/morris/raphael-min.js" type="text/javascript"></script>
         <script src="<?= base_url() ;?>assets/js/plugins/morris/morris.min.js" type="text/javascript"></script>
-        <!-- Sparkline -->
-        <script src="<?= base_url() ;?>assets/js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
-        <!-- jQuery Knob Chart -->
-        <script src="<?= base_url() ;?>assets/js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
         <!-- daterangepicker -->
         <script src="<?= base_url() ;?>assets/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
         <!-- datepicker -->
@@ -173,53 +169,57 @@
         <script type="text/javascript">
             $(function() {
                 "use strict";
-                /* Morris.js Charts */
-                //Bar chart
-                var counter = new Morris.Bar({
+                //getting JSON data from external sources
+                function datacounter() {
+                    var json;
+                    $.ajax({
+                        url: '<?=site_url();?>/home/get_jumlahdatacounter/',
+                        async: false,
+                        global: false,
+                        success: function(data) {
+                            json = data;
+                        }, 
+                        error:function(){
+                            //alert("Error loading chart");
+                        }
+                    });
+                    return json;
+                }
+                
+                function datalayanan() {
+                    var json;
+                    $.ajax({
+                        url: '<?=site_url();?>/home/get_jumlahdatalayanan/',
+                        async: false,
+                        global: false,
+                        success: function(data) {
+                            json = data;
+                        }, 
+                        error:function(){
+                            //alert("Error loading chart");
+                        }
+                    });
+                    return json;
+                }
+
+                //alert(datacounter());
+                
+                var counterchart = new Morris.Bar({
                     element: 'grafik-counter',
                     resize: true,
-                    data: [
-                        // {y: 'Counter 1', a: 1, b: 5, c:10},
-                        <?php 
-                            if(is_null($cougraf)) {
-                                foreach ($listcou->result() as $cuu) {
-                                    echo "{ counter: '" . $cuu->counter_name . "', a: 0, b: 0, c:0},";
-                                }
-                            } else {
-                                foreach ($cougraf->result() as $key) {
-                                    echo "{ counter: '" . $key->Counter . "', a: " . $key->Gff . ", b:" . $key->Ticket . ", c:" . $key->City . " },";       
-                                }
-                            }
-                            
-                        ?>
-                    ],
+                    data: $.parseJSON(datacounter()),
                     barColors: ['#00a65a', '#f56954', '#33B6EA'],
                     xkey: 'counter',
                     ykeys: ['a', 'b', 'c'],
-                    labels: ['L-A', 'L-B', 'L-C'],
+                    labels: ['GFF P/G', 'RESERVASI', 'CITY CHECK'],
                     smooth: true,
                     hideHover: 'auto'
                 });
-                //Bar chart
-                var layanan = new Morris.Bar({
+                
+                var layananchart = new Morris.Bar({
                     element: 'grafik-layanan',
                     resize: true,
-                    data: [
-                        //{y: 'GFF', a: 2, b: 90, c:2},
-                        <?php 
-                        //print_r($laygraf);
-                            if(is_null($laygraf)) {
-                                foreach ($listlay->result() as $cuu) {
-                                    echo "{ layanan: '" . $cuu->layanan_name . "', a: 0, b: 0, c:0},";
-                                }
-                            } else {
-                                foreach ($laygraf->result() as $key) {
-                                    echo "{ layanan: '" . $key->Layanan . "', a: " . $key->Selesai . ", b:" . $key->Menunggu . ", c:" . $key->Dilayani . " },";       
-                                }
-                            }
-                            
-                        ?>
-                    ],
+                    data: $.parseJSON(datalayanan()),
                     barColors: ['#00a65a', '#f56954', '#33B6EA'],
                     xkey: 'layanan',
                     ykeys: ['a', 'b', 'c'],
@@ -227,10 +227,36 @@
                     smooth: true,
                     hideHover: 'auto'
                 });
+                
+                function update() {
+                    counterchart.setData($.parseJSON(datacounter())); // redraw grafik
+                    layananchart.setData($.parseJSON(datalayanan()));
+                }
+                setInterval(update, 10000);
+                
                 //Fix for charts under tabs
                 $('.box ul.nav a').on('shown.bs.tab', function(e) {
-                    layanan.redraw();
-                    counter.redraw();
+                    layananchart.redraw();
+                    counterchart.redraw();
                 });
+            });
+        </script>
+        <script type="text/javascript">
+            function refresh_jumlah(){
+                $.getJSON('<?=site_url();?>/home/get_jumlahdatabox/', function(obj) {
+                    $('#boxlayani').html(obj.boxlayani);
+                    $('#boxcounter').html(obj.boxcounter);
+                    $('#boxantri').html(obj.boxantri);
+                    $('#boxsurvei').html(obj.boxsurvei);
+                });
+            }
+
+            $(document).ready(function() {
+                refresh_jumlah();
+                var auto_refresh = setInterval(
+                    function(){
+                        refresh_jumlah();
+                    }, 10000
+                )
             });
         </script>

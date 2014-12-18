@@ -27,10 +27,10 @@
                                         <dt>Deskripsi</dt>
                                         <dd>Aplikasi ini digunakan untuk melihat <em>report</em> dan konfigurasi layanan yang ada pada Sistem Antrian di Sales Office Garuda Indonesia - Basuki Rahmat Surabaya.</dd>
                                         <dt>Dikembangkan oleh</dt>
-                                        <dd>Tim Kaworu Mono dari B3IBS // Politeknik Elektronika Negeri Surabaya</dd>
+                                        <dd>Tim Kawaru Mono dari B3IBS // Politeknik Elektronika Negeri Surabaya</dd>
                                         <dd>yaitu : Safrizal, Yufi, Retno</dd>
                                         <dt>Copyright</dt>
-                                        <dd>MIT License 2014 - Kaworu Mono</dd>
+                                        <dd>MIT License 2014 - Kawaru Mono</dd>
                                     </dl>
 
                                 </div><!-- /.box-body -->
@@ -44,7 +44,7 @@
                                 <div class="box-body">
                                     <blockquote>
                                         <p>Anda dapat menghubungi Developer di <a href="mailto:emailnyab3ibs@gmail.com" title="Emailnya B3IBS">emailnyab3ibs@gmail.com</a> dengan subjek "Kaworu Mono"</p>
-                                        <small>Tim Kaworu Mono dari <cite title="B3IBS">B3IBS</cite></small>
+                                        <small>Tim Kawaru Mono dari <cite title="B3IBS">B3IBS</cite></small>
                                     </blockquote>
 
                                 </div><!-- /.box-body -->

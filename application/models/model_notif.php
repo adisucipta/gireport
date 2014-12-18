@@ -33,10 +33,13 @@ class Model_notif extends CI_Model {
     }
     
     function updatebaca() {
-        $data = array(
-            'notif_baca' => '1'
-        );
-        $this->db->update('gi_notif', $data, "notif_baca = '0'");
+        $this->db->query('UPDATE `gi_notif`
+            SET `notif_baca`="1"
+            WHERE `notif_baca`="0"');
+//        $data = array(
+//            'notif_baca' => '1'
+//        );
+//        $this->db->update('gi_notif', $data, "notif_baca = '0'");
     }
 
     function get_notif() {
@@ -54,7 +57,7 @@ class Model_notif extends CI_Model {
             FROM `gi_notif`,`gi_notiftipe` 
             WHERE `gi_notif`.`notif_tipe` = `gi_notiftipe`.`tipe_id`
             ORDER BY `notif_tanggal` DESC 
-            LIMIT 0,4');
+            LIMIT 0,5');
         return $query;
     }
     

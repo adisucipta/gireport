@@ -5,6 +5,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="<?= base_url(); ?>assets/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?= base_url(); ?>assets/img/favicon.ico" type="image/x-icon">
     <link href="<?= base_url();?>assets/login/css/preview.css" rel="stylesheet" />
     <script src="<?= base_url();?>assets/login/js/modernizr.js"></script>
     <link href='<?= base_url();?>assets/roboto/robotcss.css' rel='stylesheet' type='text/css'>
@@ -18,11 +20,12 @@
 
             <div class="login-form-section">
                 <div class="login-content " data-animation="bounceIn">
-                    <form class="form-1" action="<?= base_url();?>index.php/auth/login" method="post">
+<!--                    <form class="form-1" action="<?= base_url();?>index.php/auth/login" method="post">-->
+                    <?php echo form_open('auth/login','class="form-1"')?>
                         <div class="section-title">
                             <h3>Login Dashboard Report</h3>
                         </div>
-                        <?php if(isset($false)){ ?><div class="error-wrap"><h4><?= $false; ?></h4></div><?php } ?>
+                        <?php if(isset($error)){ ?><div class="error-wrap"><h4><?= $error; ?></h4></div><?php } ?>
                         <div class="textbox-wrap">
                             <div class="input-group">
                                 <span class="input-group-addon "><i class="icon-user icon-color"></i></span>
@@ -38,13 +41,14 @@
                         <div class="login-form-action clearfix">
                             <div class="checkbox pull-left">
                                 <div class="custom-checkbox">
-                                    <input type="checkbox" checked name="iCheck">
+                                    <input type="checkbox" name="iCheck">
                                 </div>
                                 <span class="checkbox-text pull-left">&nbsp;Ingat Saya</span>
                             </div>
                             <button type="submit" class="btn btn-success pull-right green-btn">Masuk &nbsp; <i class="icon-chevron-right"></i></button>
                         </div>
-                    </form>
+                    <?php echo form_close(); ?>
+                    <!--</form>-->
                 </div>
                 <div class="login-form-links link2 " data-animation="fadeInRightBig" data-animation-delay=".4s">
                     <h4 class="green">Lupa Password?</h4>
@@ -71,10 +75,6 @@
         $(function () {
             $("input").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
-                increaseArea: '20%' // optional
-            });
-            $(".dark input").iCheck({
-                checkboxClass: 'icheckbox_polaris',
                 increaseArea: '20%' // optional
             });
             $(".form-control").focus(function () {

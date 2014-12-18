@@ -8,7 +8,7 @@ class Home extends CI_Controller {
     function __construct() {
         parent::__construct();
         // jika belum login, redirect ke halaman login
-        if ($this->session->userdata('username') == NULL) {
+        if (!is_login()) {
             $newdata = array(
                 'pesan' => "Anda harus login untuk mengakses halaman tersebut",
                 'urlke' => current_url()
@@ -16,8 +16,8 @@ class Home extends CI_Controller {
             $this->session->set_userdata($newdata);
             redirect('auth/fals');
         }
-        $this->load->helper('date');
-        $this->load->helper('number');
+        
+        // load model
         $this->load->model('model_notif', '', true);
         $this->load->model('model_antrian', '', true);
         $this->load->model('model_counter', '', true);
@@ -30,12 +30,7 @@ class Home extends CI_Controller {
         $datah['unreadnotif'] = $this->model_notif->get_notifunread();
         // mengaktifkan menu dashboard
         $datah['menu_dashboard'] = TRUE;
-        
-        // data buat box
-        $data['boxlayani'] = $this->model_antrian->get_total("3",TRUE);
-        $data['boxcounter'] = $this->model_counter->get_total("1");
-        $data['boxantri'] = $this->model_antrian->get_total("1",TRUE);
-        $data['boxsurvei'] = $this->model_survei->get_total();
+        $datah['title'] = "Dashboard";
         
         // data buat grafik
         $data['laygraf'] = $this->model_antrian->get_totalayanan();
@@ -47,9 +42,8 @@ class Home extends CI_Controller {
         $datestring = "%H:%i:%s";
         $tglstring = "%d-%m-%Y";
         $waktu = '';
-        $time = gmt_to_local(now(), "UP5");
-        $jam = mdate($datestring, $time);
-        $tanggal = mdate($tglstring, $time);
+        $jam = mdate($datestring, now());
+        $tanggal = mdate($tglstring, now());
         if ($jam < 4) {
             $waktu = "Dini Hari ";
         } else if ($jam < 11) {
@@ -64,9 +58,67 @@ class Home extends CI_Controller {
         $data['welcome_message'] = "Selamat " . $waktu . ucfirst($this->session->userdata('username')) . ". Hari ini tanggal " . $tanggal;
         
         // generate view
-        $this->load->view('header',$datah);
+        $this->load->view('header_view',$datah);
         $this->load->view('dashboard_view',$data);
-        $this->load->view('footer');
+        $this->load->view('footer_view');
+    }
+    
+    public function get_jumlahdatabox() {
+        // data buat box
+        $data['boxlayani'] = $this->model_antrian->get_total("3",TRUE);
+        $data['boxcounter'] = $this->model_counter->get_total("1");
+        $data['boxantri'] = $this->model_antrian->get_total("1",TRUE);
+        $data['boxsurvei'] = $this->model_survei->get_total();
+        
+        echo json_encode($data);
+    }
+    
+    public function get_jumlahdatacounter() {
+        // data buat grafik
+        //$data['laygraf'] = $this->model_antrian->get_totalayanan();
+        $data['cougraf'] = $this->model_antrian->get_totalcounter();
+//        $data['listlay'] = $this->model_antrian->get_layanan();
+        $data['listcou'] = $this->model_counter->get_counter();
+        if(is_null($data['cougraf'])) {
+            foreach ($data['listcou']->result() as $key) {
+                $cougraf[] = array(
+                    'counter' => $key->counter_name,'a' => 0,'b' => 0,'c' => 0
+                );       
+            }
+        } else {
+            foreach ($data['cougraf']->result() as $key) {
+                $cougraf[] = array(
+                    'counter' => $key->Counter,'a' => $key->Gff,'b' => $key->Ticket,'c' => $key->City
+                );       
+            }
+        }
+        
+        
+        echo json_encode($cougraf);
+    }
+    
+    public function get_jumlahdatalayanan() {
+        // data buat grafik
+        $data['laygraf'] = $this->model_antrian->get_totalayanan();
+        $data['listlay'] = $this->model_antrian->get_layanan();
+//        $data['listcou'] = $this->model_counter->get_counter();
+        
+        if(is_null($data['laygraf'])) {
+            foreach ($data['listlay']->result() as $key) {
+                $laygraf[] = array(
+                    'layanan' => $key->layanan_name,'a' => 0,'b' => 0,'c' => 0
+                );       
+            }
+        } else {
+            foreach ($data['laygraf']->result() as $key) {
+                $laygraf[] = array(
+                    'layanan' => $key->Layanan,'a' => $key->Selesai,'b' => $key->Menunggu,'c' => $key->Dilayani
+                );       
+            }
+        }
+        
+        
+        echo json_encode($laygraf);
     }
 
 }

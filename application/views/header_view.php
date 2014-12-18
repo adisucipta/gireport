@@ -2,8 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Dashboard // GIreport</title>
+        <title><?=$title;?> // GIreport</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <link rel="shortcut icon" href="<?=base_url();?>assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="<?=base_url();?>assets/img/favicon.ico" type="image/x-icon">
         <!-- bootstrap 3.0.2 -->
         <link href="<?=base_url();?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
@@ -30,7 +32,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="pace-done fixed skin-black">
+    <body class="pace-done fixed <?=$this->access->get_userid() == 1 ? "skin-black" : "skin-blue";?>">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?=base_url();?>" class="logo">
@@ -51,13 +53,13 @@
                         <!-- timer refresh -->
                         <li>
                             <a href="#">
-                                <span style="color:black;padding:auto;font-weight:bold;" id="timer"></span>
+                                <span style="color:<?=$this->access->get_userid() == 1 ? "black" : "white";?>;padding:auto;font-weight:bold;" id="timer"></span>
                             </a>                        
                         </li>  
                         <!-- /.timer -->
                         <!-- Notifications: style can be found in dropdown.less -->
                         <?php 
-                            
+                            if($this->access->get_userid() == 1) { 
                         ?>
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -89,6 +91,7 @@
                                 <li class="footer"><a href="<?=base_url();?>index.php/notifikasi">Lihat Semua</a></li>
                             </ul>
                         </li>
+                            <?php } ?>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -127,7 +130,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="<?=base_url();?>assets/img/avatar8.png" class="img-circle" alt="User Image" />
+                            <img src="<?=base_url();?>assets/img/<?=$this->access->get_userid() == 1 ? "avatar8" : "avatar7";?>.png" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p>Hai, <?=$this->session->userdata('username');?></p>
@@ -135,16 +138,7 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                    <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                            <span class="input-group-btn">
-                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
+                    
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="<?php if(isset($menu_dashboard)){echo 'active';}?>">
@@ -152,6 +146,7 @@
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
+                        <?php if($this->access->get_userid() == 1) { ?>
                         <li class="<?php if(isset($menu_notif)){echo 'active';}?>">
                             <a href="<?=base_url();?>index.php/notifikasi">
                                 <i class="fa fa-warning"></i> <span>Notifikasi</span>
@@ -160,6 +155,7 @@
                                 <?php } ?>
                             </a>
                         </li>
+                        <?php } ?>
                         <li class="treeview <?php if(isset($menu_report)){echo 'active';}?>">
                             <a href="#">
                                 <i class="fa fa-bar-chart-o"></i>
@@ -167,9 +163,9 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu <?php if(isset($menu_report)){echo 'active';}?>">
-                                <li class="<?php if(isset($menu_antrian)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/antrian"><i class="fa fa-angle-double-right"></i> Antrian</a></li>
-                                <li class="<?php if(isset($menu_pengunjung)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/pengunjung"><i class="fa fa-angle-double-right"></i> Pengunjung</a></li>
-                                <li class="<?php if(isset($menu_survei)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/survei"><i class="fa fa-angle-double-right"></i> Survei</a></li>
+                                <li class="<?php if(isset($menu_antrian)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/antrian"><i class="fa fa-list"></i> Antrian</a></li>
+                                <li class="<?php if(isset($menu_rekap)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/rekapantrian"><i class="fa fa-users"></i> Rekap Antrian</a></li>
+                                <li class="<?php if(isset($menu_survei)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/survei"><i class="fa fa-bar-chart-o"></i> Survei</a></li>
                             </ul>
                         </li>
                         <li class="treeview <?php if(isset($menu_atur)){echo 'active';}?>">
@@ -178,10 +174,13 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu <?php if(isset($menu_atur)){echo 'active';}?>">
-                                <li class="<?php if(isset($menu_profil)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/profil"><i class="fa fa-angle-double-right"></i> Profil</a></li>
-                                <li class="<?php if(isset($menu_counter)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/counter"><i class="fa fa-angle-double-right"></i> Counter</a></li>
-                                <li class="<?php if(isset($menu_server)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/server"><i class="fa fa-angle-double-right"></i> Server</a></li>
-                                <li class="<?php if(isset($menu_queue)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/queue"><i class="fa fa-angle-double-right"></i> Queue</a></li>
+                                <li class="<?php if(isset($menu_profil)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/profil"><i class="fa fa-user"></i> Profil</a></li>
+                                <?php if($this->access->get_userid() == 1) { ?>
+                                <li class="<?php if(isset($menu_counter)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/counter"><i class="fa fa-android"></i> Counter</a></li>
+                                <li class="<?php if(isset($menu_user)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/user"><i class="fa fa-users"></i> User</a></li>
+                                <!-- <li class="<?php if(isset($menu_server)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/server"><i class="fa fa-desktop"></i> Server</a></li> -->
+                                <li class="<?php if(isset($menu_gui)){echo 'active';}?>"><a href="<?=base_url();?>index.php/pengaturan/gui"><i class="fa fa-list-alt"></i> GUI Layanan</a></li>
+                                <?php } ?>
                             </ul>
                         </li>
                         <li class="<?php if(isset($menu_tentang)){echo 'active';}?>">

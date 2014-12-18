@@ -1,6 +1,7 @@
 
-        <!-- AdminLTE App -->
-        <script src="<?= base_url() ;?>assets/js/AdminLTE/app.js" type="text/javascript"></script>
+        <!-- gireport App -->
+        <script src="<?= base_url() ;?>assets/js/gireport/app.js" type="text/javascript"></script>
+        <script src="<?= base_url() ;?>assets/js/gireport/misc.js" type="text/javascript"></script>
         <script type="text/javascript">
             function checklength(i) {
                 'use strict';
@@ -29,6 +30,7 @@
                     location.reload();
                 }
             }
+            
         </script>
 
     </body>

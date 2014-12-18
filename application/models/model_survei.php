@@ -26,12 +26,18 @@ class Model_survei extends CI_Model {
         return $query;
     }
     
-    function get_total($parameter = '') {
-        if($parameter == ''){ $parameter = date("d-m-Y"); }
-        $query = $this->db->query('SELECT count(DISTINCT `customer_id`) as Total 
-            FROM `gi_customersurv` 
-            WHERE DATE_FORMAT(`gi_customersurv`.`tanggal`,"%d-%m-%Y") = "'. $parameter .'"');
-        return $query->row()->Total;
+    function get_total($tanggal = FALSE) {
+        if($tanggal == TRUE){ 
+            $parameter = date("d-m-Y"); 
+            $query = $this->db->query('SELECT count(DISTINCT `customer_id`) as Total 
+                FROM `gi_customersurv` 
+                WHERE DATE_FORMAT(`gi_customersurv`.`tanggal`,"%d-%m-%Y") = "'. $parameter .'"');
+            return $query->row()->Total;
+        } else {
+            $query = $this->db->query('SELECT count(DISTINCT `customer_id`) as Total FROM `gi_customersurv`');
+            return $query->row()->Total;
+        }
+        
     }
 
     function get_survei() {

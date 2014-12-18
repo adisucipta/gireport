@@ -20,7 +20,7 @@
 
             <div class="forgot-password-section" data-animation="bounceInLeft">
                 <div class="section-title">
-                    <h3>Forget Password</h3>
+                    <h3>Lupa Password</h3>
                 </div>
                 <div class="forgot-content">
                     <form class="form-1" action="<?= base_url();?>index.php/auth/reset" method="post">
@@ -32,13 +32,19 @@
                         </div>
                         <div class="textbox-wrap">
                             <div class="input-group">
-                                <span class="input-group-addon "><i class="icon-envelope icon-color"></i></span>
-                                <input type="email" class="form-control " placeholder="Email Id" required />
+                                <span class="input-group-addon "><i class="icon-key icon-color"></i></span>
+                                <input type="password" class="form-control " placeholder="Password" required />
+                            </div>
+                        </div>
+                        <div class="textbox-wrap">
+                            <div class="input-group">
+                                <span class="input-group-addon "><i class="icon-key icon-color"></i></span>
+                                <input type="password" class="form-control " placeholder="Ulangi Password" required />
                             </div>
                         </div>
                         <div class="forget-form-action clearfix">
-                            <a class="btn btn-success pull-left blue-btn" href="<?= base_url();?>index.php/auth"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
-                            <button type="submit" class="btn btn-success pull-right green-btn">Submit &nbsp;&nbsp; <i class="icon-chevron-right"></i></button>
+                            <a class="btn btn-success pull-left blue-btn" href="<?= base_url();?>index.php/auth"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Kembali  </a>
+                            <button type="submit" class="btn btn-success pull-right green-btn">Reset &nbsp;&nbsp; <i class="icon-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>

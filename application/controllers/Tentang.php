@@ -8,7 +8,7 @@ class Tentang extends CI_Controller {
     function __construct() {
         parent::__construct();
         // jika belum login, redirect ke halaman login
-        if ($this->session->userdata('username') == NULL) {
+        if (!is_login()) {
             $newdata = array(
                 'pesan' => "Anda harus login untuk mengakses halaman tersebut",
                 'urlke' => current_url()
@@ -26,10 +26,11 @@ class Tentang extends CI_Controller {
         
         // mengaktifkan menu tentang
         $datah['menu_tentang'] = TRUE;
+        $datah['title'] = "Tentang";
         
-        $this->load->view('header', $datah);
-        $this->load->view('tentang');
-        $this->load->view('footer');
+        $this->load->view('header_view', $datah);
+        $this->load->view('tentang_view');
+        $this->load->view('footer_view');
     }
 
 }

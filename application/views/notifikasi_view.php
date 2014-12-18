@@ -20,7 +20,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <b>OK!</b> <?=$this->session->userdata('pesannotif');?>
                     </div>
-                    <?php } ?>
+                    <?php $this->session->unset_userdata('pesannotif'); } ?>
 
                     <div class='row'>
                         <div class='col-md-12'>
@@ -43,8 +43,7 @@
                                 </div><!-- /.box-header -->
                                 <div class='box-body pad'>
                                     <?php foreach ($notif->result() as $key ) { ?>
-                                    <div class="alert alert-<?=$key->tipe_nama;?> alert-dismissable" style="padding:5px 35px 5px 5px; margin: 0 0 5px 0">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <div class="alert alert-<?=$key->tipe_nama;?>" style="padding:5px 35px 5px 5px; margin: 0 0 5px 0">
                                         <b>(<?=$key->notif_tanggal;?>)</b> <?=$key->notif_teks;?>
                                     </div>
                                     <?php } ?>
