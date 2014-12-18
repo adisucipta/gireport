@@ -9134,7 +9134,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sSortAscending": ": activate to sort column ascending",
+				//"sSortAscending": ": activate to sort column ascending",
+                                "sSortAscending": ": mengaktifkan pengurutan kolom secara ascending",
 	
 				/**
 				 * ARIA label that is added to the table headers when the column may be
@@ -9155,7 +9156,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sSortDescending": ": activate to sort column descending"
+				//"sSortDescending": ": activate to sort column descending"
+                                "sSortDescending": ": mengaktifkan pengurutan kolom secara descending"
 			},
 	
 			/**
@@ -9182,7 +9184,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
+				//"sFirst": "First",
+                                "sFirst": "Pertama",
 			
 			
 				/**
@@ -9203,7 +9206,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+				//"sLast": "Last",
+                                "sLast": "Terakhir",
 			
 			
 				/**
@@ -9224,7 +9228,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				//"sNext": "Next",
+                                "sNext": "Selanjutnya",
 			
 			
 				/**
@@ -9245,7 +9250,8 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				//"sPrevious": "Previous"
+                                "sPrevious": "Sebelumnya"
 			},
 		
 			/**
@@ -9266,7 +9272,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			//"sEmptyTable": "No data available in table",
+                        "sEmptyTable": "Tidak ada data yang bisa ditampilkan pada tabel",
 		
 		
 			/**
@@ -9287,8 +9294,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
-		
+			//"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
 		
 			/**
 			 * Display information string for when the table is empty. Typically the 
@@ -9306,8 +9313,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
-		
+			//"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+                        "sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
 		
 			/**
 			 * When a user filters the information in a table, this string is appended 
@@ -9326,8 +9333,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
-		
+			//"sInfoFiltered": "(filtered from _MAX_ total entries)",
+                        "sInfoFiltered": "(terfilter dari _MAX_ total data)",
 		
 			/**
 			 * If can be useful to append extra information to the info string at times,
@@ -9407,8 +9414,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
-		
+			//"sLengthMenu": "Show _MENU_ entries",
+                        "sLengthMenu": "Menampilkan _MENU_ data",
 		
 			/**
 			 * When using Ajax sourced data and during the first draw when DataTables is
@@ -9429,8 +9436,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
-		
+			//"sLoadingRecords": "Loading...",
+                        "sLoadingRecords": "Tunggu dulu...",
 		
 			/**
 			 * Text which is displayed when the table is processing a user action
@@ -9448,8 +9455,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
-		
+			//"sProcessing": "Processing...",
+                        "sProcessing": "Sedang memproses...",
 		
 			/**
 			 * Details the actions that will be taken when the user types into the
@@ -9481,8 +9488,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
-		
+			//"sSearch": "Search:",
+                        "sSearch": "Cari :",
 		
 			/**
 			 * All of the language information can be stored in a file on the
@@ -9524,7 +9531,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			//"sZeroRecords": "No matching records found"
+                        "sZeroRecords": "Tidak ada data yang cocok ditemukan"
 		},
 	
 	
