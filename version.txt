@@ -1,0 +1,17 @@
+dashboard 
++ informasi load time
+
+notifikasi
++ di grup-kan berdasarkan tanggal
+
+antrian
++ tambahkan total layani per counter
++ tambahkan bagian user dan total melayani
++ print
+
+rekap antrian
++ rekap per tanggal/bulan
++ print
+
+queue
++ pengaturan gui

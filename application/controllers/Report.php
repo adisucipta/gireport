@@ -122,18 +122,8 @@ class Report extends CI_Controller {
             $record[] = $temp->Layanan;
             $record[] = $temp->Status;
             $record[] = $temp->Tanggal;
-            /*$record[] = '<div class="btn-group">
-                            <button type="button" class="btn btn-info btn-xs btn-flat" data-toggle="dropdown">Action
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" onclick="modaldetail(\'' . $temp->no_pendaftaran . '\')">Detail</a></li>
-                                <li><a href="#" onclick="cetak(\'' . $temp->no_pendaftaran . '\')">Cetak</a></li>
-                                ' . $edit_menu . '
-                            </ul>
-                        </div>';
-             * 
-             */
+            $time = humanTiming(strtotime($temp->Layani),strtotime($temp->Selesai));
+            $record[] = '<button class="btn btn-xs btn-flat btn-info" onclick="modaldetail(\''.$temp->Nomor.'\', \''.addslashes($temp->Counter).'\', \''.addslashes($temp->Layanan).'\', \''.addslashes($temp->Status).'\', \''.addslashes($time).'\')"><i class="fa fa-eye"></i> Lihat Detail</button>';
 
             $output['aaData'][] = $record;
         }
@@ -146,6 +136,28 @@ class Report extends CI_Controller {
      * 
      * 
      */
+
+    function humanTiming ($mulai, $akhir) {
+
+        $time = $akhir - $mulai; // to get the time since that moment
+
+        $tokens = array (
+            31536000 => 'year',
+            2592000 => 'month',
+            604800 => 'week',
+            86400 => 'day',
+            3600 => 'hour',
+            60 => 'minute',
+            1 => 'second'
+        );
+
+        foreach ($tokens as $unit => $text) {
+            if ($time < $unit) continue;
+            $numberOfUnits = floor($time / $unit);
+            return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+        }
+
+    }
     function get_start() {
         $start = 0;
         if (isset($_GET['iDisplayStart'])) {

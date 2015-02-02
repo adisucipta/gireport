@@ -102,7 +102,7 @@
                     <!-- Main row -->
                     <div class="row">
                         <!-- Left col -->
-                        <section class="col-lg-8">                            
+                        <section class="col-lg-9">                            
 
 
                             <!-- Custom tabs (Charts with tabs)-->
@@ -123,7 +123,7 @@
                             
                         </section><!-- /.Left col -->
                         <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                        <section class="col-lg-4"> 
+                        <section class="col-lg-3"> 
 
                             <div class="box box-info">
                                 <div class="box-header">

@@ -97,7 +97,9 @@ class Model_antrian extends CI_Model {
             `gi_counter`.`counter_name` AS Counter,
             `gi_layanan`.`layanan_name` AS Layanan,
             `gi_statusantri`.`antri_status` AS Status,
-            `gi_queue`.`queue_ambil` AS Tanggal
+            `gi_queue`.`queue_ambil` AS Tanggal,
+            `gi_queue`.`queue_layani` AS Layani,
+            `gi_queue`.`queue_selesai` AS Selesai
         FROM `gi_queue`,`gi_layanan`,`gi_counter`,`gi_statusantri`
         WHERE `gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id` 
             AND `gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`

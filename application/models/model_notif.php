@@ -15,8 +15,12 @@ class Model_notif extends CI_Model {
     }
 
     function delete($id) {
-        $this->db->where('user_id', $id);
+        $this->db->where('notif_id', $id);
         $this->db->delete('gi_notif');
+    }
+
+    function deleteall() {
+        $this->db->empty_table('gi_notif');   
     }
 
     function selectone($id) {
@@ -44,10 +48,9 @@ class Model_notif extends CI_Model {
 
     function get_notif() {
         $today = date("d-m-Y"); 
-        $query = $this->db->query('SELECT `gi_notif`.`notif_id`,`gi_notif`.`notif_teks`,`gi_notif`.`notif_tanggal`,`gi_notiftipe`.`tipe_nama` 
+        $query = $this->db->query('SELECT `gi_notif`.`notif_id`,`gi_notif`.`notif_teks`,`gi_notif`.`notif_tanggal`,`gi_notif`.`notif_baca`,`gi_notiftipe`.`tipe_nama` 
             FROM `gi_notif`,`gi_notiftipe`
             WHERE `gi_notif`.`notif_tipe` = `gi_notiftipe`.`tipe_id`
-                AND DATE_FORMAT(`gi_notif`.`notif_tanggal`,"%d-%m-%Y") = "'. $today .'" 
             ORDER BY `gi_notif`.`notif_tanggal` DESC');
         return $query;
     }

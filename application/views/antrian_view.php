@@ -116,7 +116,7 @@
                     </div><!-- /.row -->
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="box box-primary no-print">
                                 <div class="box-header">
                                     <h3 class="box-title">Status Counter</h3>
@@ -143,7 +143,7 @@
 
                         </div><!-- /.col -->
 
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <!-- Bar chart -->
                             <div class="box box-success">
                                 <div class="box-header">
@@ -173,6 +173,7 @@
                                                 <th>Layanan</th>
                                                 <th>Status</th>
                                                 <th>Tanggal</th>
+                                                <th>Opsi</th>
                                             </tr>
                                         </thead>
                                         
@@ -183,6 +184,7 @@
                                                 <th>Layanan</th>
                                                 <th>Status</th>
                                                 <th>Tanggal</th>
+                                                <th>Opsi</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -213,6 +215,14 @@
         
         <!-- Page script -->
         <script type="text/javascript">
+            function modaldetail(judul, status, teks, time, timeto){
+                var waktu = time + " sampai " + timeto;
+                $('#lihat-judul').html(judul);
+                $('#lihat-teks').html(teks);
+                $('#lihat-waktu').html(waktu);
+                $('#lihat-status').html(status);
+                $('#modal-lihat').modal('show');
+            }
 
             $(function() {
 
@@ -266,6 +276,7 @@
                     "sAjaxSource": "<?=base_url();?>index.php/report/getantrian", //datasource
                     "bServerSide": true,
                     "aoColumns": [
+                        {"bSearchable": false, "bSortable": true},
                         {"bSearchable": false, "bSortable": false},
                         {"bSearchable": false, "bSortable": false},
                         {"bSearchable": false, "bSortable": false},

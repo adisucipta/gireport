@@ -29,20 +29,64 @@ class Notifikasi extends CI_Controller {
         $datah['title'] = "Notifikasi";
         
         // daftar notifikasi
-        $data['notif'] = $this->model_notif->get_notif();
+        $data['notif'] = $this->model_notif->get_notif()->result();
         
         $this->load->view('header_view', $datah);
         $this->load->view('notifikasi_view', $data);
         $this->load->view('footer_view');
     }
-    
-    public function bacasmua() {
-        $newdata = array(
-            'pesannotif' => "Semua notifikasi berhasil ditandai telah dibaca",
-        );
-        $this->model_notif->updatebaca();
-        $this->session->set_userdata($newdata);
-        redirect('notifikasi');
+    function hapusnotif(){
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('hapus-id', 'Role ID','required|strip_tags');
+
+        if($this->form_validation->run() == TRUE){
+            $id = addslashes($this->input->post('hapus-id', TRUE));
+            if($id == 1) {
+                $this->model_notif->deleteall();
+                $newdata = array(
+                    'pesannotif' => "Semua notifikasi berhasil dihapus",
+                );
+                $this->session->set_userdata($newdata);
+
+                $status['status'] = 1;
+                $status['pesan'] = 'Semua notifikasi berhasil dihapus';
+            } else {
+                $status['status'] = 0;
+                $status['pesan'] = 'Anda tidak punya hak untuk menghapus notifikasi';
+            }
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        echo json_encode($status);
+    }
+
+    function bacasemua(){
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('baca-id', 'Role ID','required|strip_tags');
+
+        if($this->form_validation->run() == TRUE){
+            $id = addslashes($this->input->post('baca-id', TRUE));
+            if($id == 1) {
+                $this->model_notif->updatebaca();
+                $newdata = array(
+                    'pesannotif' => "Semua notifikasi berhasil ditandai telah dibaca",
+                );
+                $this->session->set_userdata($newdata);
+
+                $status['status'] = 1;
+                $status['pesan'] = 'Semua notifikasi berhasil ditandai telah dibaca';
+            } else {
+                $status['status'] = 0;
+                $status['pesan'] = 'Anda tidak punya hak untuk menandai notifikasi';
+            }
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        echo json_encode($status);
     }
 
 }
