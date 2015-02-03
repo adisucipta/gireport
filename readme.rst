@@ -9,6 +9,7 @@ Changelog dan Fitur Terbaru
 ***************************
 
 daftar perubahan
+- rekap realtime
 
 ****************
 Kebutuhan Server 
