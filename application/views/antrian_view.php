@@ -200,13 +200,44 @@
 
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
+
+        <!-- Modal lihat -->
+        <div class="modal fade" id="modal-lihat" data-backdrop="static">
+          <div class="modal-dialog" style="width: 30%;">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title"><i class="fa fa-list"></i> Lihat Detail Antrian</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="box-body">
+                          <dl>
+                              <dt>Nomor</dt>
+                              <dd><span id="lihat-nomor"></span></dd>
+                              <dt>Counter</dt>
+                              <dd><span id="lihat-counter"></span></dd>
+                              <dt>Layanan</dt>
+                              <dd><span id="lihat-layanan"></span></dd>
+                              <dt>Status</dt>
+                              <dd><span id="lihat-status"></span></dd>
+                              <dt>Lama Pelayanan</dt>
+                              <dd><span id="lihat-waktu"></span></dd>
+                          </dl>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+                  </div>
+              </div>
+          </div>
+        </div> <!-- /.modal-lihat -->
         
         <!-- jQuery 2.0.2 -->
         <script src="<?= base_url() ;?>assets/js/jquery.min.js" type="text/javascript"></script>
         <!-- Bootstrap -->
         <script src="<?= base_url() ;?>assets/js/bootstrap.min.js" type="text/javascript"></script>
         <!-- Morris.js charts -->
-	<script src="<?= base_url() ;?>assets/js/plugins/morris/raphael-min.js" type="text/javascript"></script>
+	    <script src="<?= base_url() ;?>assets/js/plugins/morris/raphael-min.js" type="text/javascript"></script>
         <script src="<?= base_url() ;?>assets/js/plugins/morris/morris.min.js" type="text/javascript"></script>
         <!-- DATA TABES SCRIPT -->
         <script src="<?=base_url();?>assets/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
@@ -215,12 +246,12 @@
         
         <!-- Page script -->
         <script type="text/javascript">
-            function modaldetail(judul, status, teks, time, timeto){
-                var waktu = time + " sampai " + timeto;
-                $('#lihat-judul').html(judul);
-                $('#lihat-teks').html(teks);
-                $('#lihat-waktu').html(waktu);
+            function modaldetail(nomor, counter, layanan, status, waktu){
+                $('#lihat-nomor').html(nomor);
+                $('#lihat-counter').html(counter);
+                $('#lihat-layanan').html(layanan);
                 $('#lihat-status').html(status);
+                $('#lihat-waktu').html(waktu);
                 $('#modal-lihat').modal('show');
             }
 

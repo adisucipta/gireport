@@ -122,7 +122,7 @@ class Report extends CI_Controller {
             $record[] = $temp->Layanan;
             $record[] = $temp->Status;
             $record[] = $temp->Tanggal;
-            $time = humanTiming(strtotime($temp->Layani),strtotime($temp->Selesai));
+            $time = $this->humanTiming(strtotime($temp->Layani),strtotime($temp->Selesai));
             $record[] = '<button class="btn btn-xs btn-flat btn-info" onclick="modaldetail(\''.$temp->Nomor.'\', \''.addslashes($temp->Counter).'\', \''.addslashes($temp->Layanan).'\', \''.addslashes($temp->Status).'\', \''.addslashes($time).'\')"><i class="fa fa-eye"></i> Lihat Detail</button>';
 
             $output['aaData'][] = $record;
@@ -142,19 +142,19 @@ class Report extends CI_Controller {
         $time = $akhir - $mulai; // to get the time since that moment
 
         $tokens = array (
-            31536000 => 'year',
-            2592000 => 'month',
-            604800 => 'week',
-            86400 => 'day',
-            3600 => 'hour',
-            60 => 'minute',
-            1 => 'second'
+            31536000 => 'tahun',
+            2592000 => 'bulan',
+            604800 => 'minggu',
+            86400 => 'hari',
+            3600 => 'jam',
+            60 => 'menit',
+            1 => 'detik'
         );
 
         foreach ($tokens as $unit => $text) {
             if ($time < $unit) continue;
             $numberOfUnits = floor($time / $unit);
-            return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+            return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'':'');
         }
 
     }
