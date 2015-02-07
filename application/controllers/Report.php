@@ -236,4 +236,14 @@ class Report extends CI_Controller {
         $this->load->view('footer_view');
     }
 
+    public function cetak(){
+        $data['antrian'] = $this->model_antrian->get_daftarantrian("",0,200,"");
+        $data['counter'] = $this->model_counter->get_counter();
+        $date = new DateTime();
+        $data['tanggal']=$date->format('d M Y');
+        
+        
+        $this->load->view('pendaftaran_print_view', $data);
+    }
+
 }
