@@ -74,10 +74,10 @@ class Model_counter extends CI_Model {
             `gi_counter`.`counter_ip` AS IP,
             `gi_counter`.`counter_status` AS Status
         FROM `gi_counter`
-        WHERE `gi_counter`.`counter_id` LIKE '%".$search."%' 
+        WHERE `gi_counter`.`counter_id` != 0 AND (`gi_counter`.`counter_id` LIKE '%".$search."%' 
                 OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
                 OR `gi_counter`.`counter_ip` LIKE '%".$search."%'
-                OR `gi_counter`.`counter_status` LIKE '%".$search."%' 
+                OR `gi_counter`.`counter_status` LIKE '%".$search."%') 
         ORDER BY `gi_counter`.`counter_id` LIMIT ".$start.",".$rows."";
         
         return $this->db->query($sql);
@@ -88,12 +88,21 @@ class Model_counter extends CI_Model {
         $sql = "SELECT 
             COUNT(*) AS Total
         FROM `gi_counter`
-        WHERE `gi_counter`.`counter_id` LIKE '%".$search."%' 
+        WHERE `gi_counter`.`counter_id` != 0 AND (`gi_counter`.`counter_id` LIKE '%".$search."%' 
                 OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
                 OR `gi_counter`.`counter_ip` LIKE '%".$search."%'
-                OR `gi_counter`.`counter_status` LIKE '%".$search."%'";
+                OR `gi_counter`.`counter_status` LIKE '%".$search."%')";
         
         return $this->db->query($sql);
+    }
+
+    function getgui() {
+        $query = $this->db->query("select * from gi_guiconfig");
+        return $query->row();
+    }
+
+    function updategui($data) {
+        $this->db->update('gi_guiconfig', $data);
     }
 
 }

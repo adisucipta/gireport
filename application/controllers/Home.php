@@ -33,7 +33,7 @@ class Home extends CI_Controller {
         $datah['title'] = "Dashboard";
         
         // data buat grafik
-        $data['laygraf'] = $this->model_antrian->get_totalayanan();
+        $data['laygraf'] = $this->model_antrian->get_totalayanan('');
         $data['cougraf'] = $this->model_antrian->get_totalcounter();
         $data['listlay'] = $this->model_antrian->get_layanan();
         $data['listcou'] = $this->model_counter->get_counter();
@@ -99,20 +99,20 @@ class Home extends CI_Controller {
     
     public function get_jumlahdatalayanan() {
         // data buat grafik
-        $data['laygraf'] = $this->model_antrian->get_totalayanan();
+        $data['laygraf'] = $this->model_antrian->get_totalayanan('');
         $data['listlay'] = $this->model_antrian->get_layanan();
 //        $data['listcou'] = $this->model_counter->get_counter();
         
         if(is_null($data['laygraf'])) {
             foreach ($data['listlay']->result() as $key) {
                 $laygraf[] = array(
-                    'layanan' => $key->layanan_name,'a' => 0,'b' => 0,'c' => 0
+                    'layanan' => $key->layanan_name,'a' => 0,'b' => 0,'c' => 0,'d' => 0,'e' => 0
                 );       
             }
         } else {
             foreach ($data['laygraf']->result() as $key) {
                 $laygraf[] = array(
-                    'layanan' => $key->Layanan,'a' => $key->Selesai,'b' => $key->Menunggu,'c' => $key->Dilayani
+                    'layanan' => $key->Layanan,'a' => $key->Selesai,'b' => $key->Menunggu,'c' => $key->Dilayani, 'd' => $key->Batal, 'e' => $key->Spesial
                 );       
             }
         }

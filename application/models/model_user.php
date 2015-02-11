@@ -115,6 +115,21 @@ class Model_user extends CI_Model {
         return $this->db->query($sql);
     }
 
+    function getusercomp($q){
+        $this->db->select('*');
+        $this->db->like('user_name', $q);
+        $query = $this->db->get('gi_user');
+        
+        if($query->num_rows > 0){
+            foreach ($query->result_array() as $row){
+                $new_row['label']=htmlentities(stripslashes($row['user_name']));
+                $new_row['value']=htmlentities(stripslashes($row['user_id']));
+                $row_set[] = $new_row; //build an array
+            }
+            echo json_encode($row_set); //format the array into json data
+        }
+    }
+
 }
 
 ?>

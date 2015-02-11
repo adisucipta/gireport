@@ -52,26 +52,6 @@ class Report extends CI_Controller {
 //        echo $this->datatables->generate();
 //    }
     
-    public function get_jumlahdatabox() {
-        // data buat box
-        $data['boxlayani'] = $this->model_antrian->get_total("3",TRUE);
-        $data['boxpengunjung'] = $this->model_antrian->get_totaldata(TRUE);
-        $data['boxantri'] = $this->model_antrian->get_total("1",TRUE);
-        $data['boxsurvei'] = $this->model_survei->get_total(TRUE);
-        
-        echo json_encode($data);
-    }
-    
-    public function get_totaldatabox() {
-        // data buat box
-        $data['boxlayani'] = $this->model_antrian->get_total("3");
-        $data['boxpengunjung'] = $this->model_antrian->get_totaldata();
-        $data['boxbatal'] = $this->model_antrian->get_total("4");
-        $data['boxsurvei'] = $this->model_survei->get_total();
-        
-        echo json_encode($data);
-    }
-    
     public function getantrian() {
         // variable initialization
         $search = "";
@@ -93,6 +73,65 @@ class Report extends CI_Controller {
         $iFilteredTotal = $query->num_rows();
 
         $iTotal = $this->model_antrian->get_count_daftarantrian("",$search)->row()->Total;
+
+        $output = array(
+            "sEcho" => intval($_GET['sEcho']),
+            "iTotalRecords" => $iTotal,
+            "iTotalDisplayRecords" => $iTotal,
+            "aaData" => array()
+        );
+
+        //$edit = $this->access->cek_akses('atur_pendaftar');
+        //$edit_menu = '';
+        // get result after running query and put it in array
+        $i = $start;
+        $antrian = $query->result();
+        foreach ($antrian as $temp) {
+            $record = array();
+
+            /*if ($edit) {
+                $edit_menu = '
+                    <li><a href="#" onclick="modaledit(\'' . $temp->no_pendaftaran . '\')" >Edit</a></li>
+                    <li><a href="#" onclick="modalhapus(\'' . $temp->no_pendaftaran . '\', \'' . $temp->nama . '\', \'' . $temp->asal_sekolah . '\')">Hapus</a></li>
+                    ';
+            }*/
+
+            //$record[] = ++$i;
+            $record[] = $temp->Nomor;
+            $record[] = $temp->Counter;
+            $record[] = $temp->Layanan;
+            $record[] = $temp->Status;
+            $record[] = $temp->Tanggal;
+            $time = $this->humanTiming(strtotime($temp->Layani),strtotime($temp->Selesai));
+            $record[] = '<button class="btn btn-xs btn-flat btn-info" onclick="modaldetail(\''.$temp->Nomor.'\', \''.addslashes($temp->Counter).'\', \''.addslashes($temp->Layanan).'\', \''.addslashes($temp->Status).'\', \''.addslashes($time).'\')"><i class="fa fa-eye"></i> Lihat Detail</button>';
+
+            $output['aaData'][] = $record;
+        }
+        // format it to JSON, this output will be displayed in datatable
+        echo json_encode($output);
+    }
+
+    public function getfullantrian() {
+        // variable initialization
+        $search = "";
+        $start = 0;
+        $rows = 25;
+
+        // get search value (if any)
+        if (isset($_GET['sSearch']) && $_GET['sSearch'] != "") {
+            $search = $_GET['sSearch'];
+        }
+
+        // limit
+        $start = $this->get_start();
+        $rows = $this->get_rows();
+
+        // run query to get user listing
+        $query = $this->model_antrian->get_daftarantrian("a",$start, $rows, $search);
+        //$query = $this->siswa_model->get_siswa($start, $rows, $search);
+        $iFilteredTotal = $query->num_rows();
+
+        $iTotal = $this->model_antrian->get_count_daftarantrian("a",$search)->row()->Total;
 
         $output = array(
             "sEcho" => intval($_GET['sEcho']),
@@ -236,14 +275,48 @@ class Report extends CI_Controller {
         $this->load->view('footer_view');
     }
 
-    public function cetak(){
-        $data['antrian'] = $this->model_antrian->get_daftarantrian("",0,200,"");
-        $data['counter'] = $this->model_counter->get_counter();
-        $date = new DateTime();
-        $data['tanggal']=$date->format('d M Y');
+    public function get_jumlahdatabox() {
+        // data buat box
+        $data['boxlayani'] = $this->model_antrian->get_total("3",TRUE);
+        $data['boxpengunjung'] = $this->model_antrian->get_totaldata(TRUE);
+        $data['boxantri'] = $this->model_antrian->get_total("1",TRUE);
+        $data['boxsurvei'] = $this->model_survei->get_total(TRUE);
         
+        echo json_encode($data);
+    }
+    
+    public function get_totaldatabox() {
+        // data buat box
+        $data['boxlayani'] = $this->model_antrian->get_total("3");
+        $data['boxpengunjung'] = $this->model_antrian->get_totaldata();
+        $data['boxbatal'] = $this->model_antrian->get_total("4");
+        $data['boxsurvei'] = $this->model_survei->get_total();
         
-        $this->load->view('pendaftaran_print_view', $data);
+        echo json_encode($data);
+    }
+
+    public function cetak($pil){
+        if($pil == 0) { // rekap
+            // total
+            $data['layani'] = $this->model_antrian->get_total("3",FALSE);
+            $data['pengunjung'] = $this->model_antrian->get_totaldata(FALSE);
+            $data['batal'] = $this->model_antrian->get_total("4",FALSE);
+            $data['survei'] = $this->model_survei->get_total(FALSE);
+
+            $data['datalayanan'] = $this->model_antrian->get_totalayanan('full');
+            $data['datacounter'] = $this->model_antrian->get_totalkerja('full');
+        } else if($pil == 1) { // harian
+            // total
+            $data['layani'] = $this->model_antrian->get_total("3",TRUE);
+            $data['pengunjung'] = $this->model_antrian->get_totaldata(TRUE);
+            $data['batal'] = $this->model_antrian->get_total("4",TRUE);
+            $data['survei'] = $this->model_survei->get_total(TRUE);
+
+            $data['datalayanan'] = $this->model_antrian->get_totalayanan('');
+            $data['datacounter'] = $this->model_antrian->get_totalkerja('full');
+        }
+        
+        $this->load->view('antrian_print_view', $data);
     }
 
 }

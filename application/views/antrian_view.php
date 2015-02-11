@@ -29,7 +29,7 @@
                                     <h3 class="box-title">Opsi<small> Report</small></h3>
                                     <!-- tools box -->
                                     <div class="pull-right box-tools">
-                                        <button class="btn btn-success pull-right" onclick="window.print();" data-toggle="tooltip" title="Cetak"><i class="fa fa-print"></i>  Cetak</button>
+                                        <button class="btn btn-success pull-right" onclick="cetak(1)" data-toggle="tooltip" title="Cetak"><i class="fa fa-print"></i>  Cetak</button>
                                         <!-- <button class="btn btn-primary pull-right" style="margin-right: 3px;" data-toggle="tooltip" title="Buat PDF"><i class="fa fa-download"></i>  Buat PDF</button> -->
                                     </div><!-- /. tools -->
                                 </div>
@@ -253,6 +253,10 @@
                 $('#lihat-status').html(status);
                 $('#lihat-waktu').html(waktu);
                 $('#modal-lihat').modal('show');
+            }
+
+            function cetak(ID){
+                newWindow('<?=site_url()?>/report/cetak/'+ID,'Cetak Data Antrian');
             }
 
             $(function() {

@@ -51,12 +51,13 @@ class Model_antrian extends CI_Model {
     function get_totalayanan($tanggal = '') {
         if($tanggal == ''){ 
             $tanggal = mdate("%d-%m-%Y", now());
-        }
-            
-        $query = $this->db->query('SELECT `gi_layanan`.`layanan_name` AS Layanan,
+
+            $query = $this->db->query('SELECT `gi_layanan`.`layanan_name` AS Layanan,
             SUM(CASE WHEN (`gi_statusantri`.`antri_status`="SELESAI") THEN 1 ELSE 0 END)AS Selesai, 
             SUM(CASE WHEN (`gi_statusantri`.`antri_status`="MENUNGGU") THEN 1 ELSE 0 END)AS Menunggu,
             SUM(CASE WHEN (`gi_statusantri`.`antri_status`="DILAYANI") THEN 1 ELSE 0 END)AS Dilayani,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="BATAL") THEN 1 ELSE 0 END)AS Batal,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="SPESIAL") THEN 1 ELSE 0 END)AS Spesial,
             COUNT(`gi_statusantri`.`antri_status`) AS Total 
             FROM `gi_queue`,`gi_statusantri`,`gi_layanan`
             WHERE `gi_statusantri`.`antri_id` = `gi_queue`.`queue_status` 
@@ -65,6 +66,48 @@ class Model_antrian extends CI_Model {
                     AND `gi_layanan`.`layanan_enable` = "1"
             GROUP BY Layanan
             ORDER BY Layanan');
+        } else {
+            $query = $this->db->query('SELECT `gi_layanan`.`layanan_name` AS Layanan,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="SELESAI") THEN 1 ELSE 0 END)AS Selesai, 
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="MENUNGGU") THEN 1 ELSE 0 END)AS Menunggu,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="DILAYANI") THEN 1 ELSE 0 END)AS Dilayani,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="BATAL") THEN 1 ELSE 0 END)AS Batal,
+            SUM(CASE WHEN (`gi_statusantri`.`antri_status`="SPESIAL") THEN 1 ELSE 0 END)AS Spesial,
+            COUNT(`gi_statusantri`.`antri_status`) AS Total 
+            FROM `gi_queue`,`gi_statusantri`,`gi_layanan`
+            WHERE `gi_statusantri`.`antri_id` = `gi_queue`.`queue_status` 
+                    AND `gi_layanan`.`layanan_id` = `gi_queue`.`queue_layanan`
+                    AND `gi_layanan`.`layanan_enable` = "1"
+            GROUP BY Layanan
+            ORDER BY Layanan');
+        }
+        return (count($query->result_array()) > 0 ? $query : NULL);
+    }
+
+    function get_totalkerja($tanggal = '') {
+        if($tanggal == ''){ 
+            $tanggal = mdate("%d-%m-%Y", now());
+
+            $query = $this->db->query('SELECT `SELECT `gi_counter`.`counter_name` AS Counter,
+                    `gi_user`.`user_data` AS User,
+                     COUNT(`gi_queue`.`queue_layanan`) AS Total 
+            FROM `gi_counter`,`gi_queue`,`gi_user`
+            WHERE `gi_user`.`user_id` = `gi_queue`.`user_id` 
+                AND `gi_queue`.`queue_status` = 3
+                AND `gi_queue`.`queue_counter` = `gi_counter`.`counter_id`
+            GROUP BY Counter, User
+            ORDER BY Counter');
+        } else {
+            $query = $this->db->query('SELECT `gi_counter`.`counter_name` AS Counter,
+                    `gi_user`.`user_data` AS User,
+                     COUNT(`gi_queue`.`queue_layanan`) AS Total 
+            FROM `gi_counter`,`gi_queue`,`gi_user`
+            WHERE `gi_user`.`user_id` = `gi_queue`.`user_id` 
+                AND `gi_queue`.`queue_status` = 3
+                AND `gi_queue`.`queue_counter` = `gi_counter`.`counter_id`
+            GROUP BY Counter, User
+            ORDER BY Counter');
+        }
         return (count($query->result_array()) > 0 ? $query : NULL);
     }
     
@@ -90,27 +133,46 @@ class Model_antrian extends CI_Model {
     function get_daftarantrian($tanggal = '',$start, $rows, $search) {
         if($tanggal == ''){ 
             $tanggal = mdate("%d-%m-%Y", now());
+
+            $sql = "SELECT 
+                CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) AS Nomor,
+                `gi_counter`.`counter_name` AS Counter,
+                `gi_layanan`.`layanan_name` AS Layanan,
+                `gi_statusantri`.`antri_status` AS Status,
+                `gi_queue`.`queue_ambil` AS Tanggal,
+                `gi_queue`.`queue_layani` AS Layani,
+                `gi_queue`.`queue_selesai` AS Selesai
+            FROM `gi_queue`,`gi_layanan`,`gi_counter`,`gi_statusantri`
+            WHERE `gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id` 
+                AND `gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`
+                AND `gi_queue`.`queue_counter` = `gi_counter`.`counter_id`
+                AND DATE_FORMAT(`gi_queue`.`queue_ambil`,'%d-%m-%Y') = '".$tanggal."'
+                AND (CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
+                    OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
+                    OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
+                    OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
+                    OR `gi_queue`.`queue_ambil` LIKE '%".$search."%') 
+            ORDER BY Tanggal DESC LIMIT ".$start.",".$rows."";
+        } else {
+            $sql = "SELECT 
+                CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) AS Nomor,
+                `gi_counter`.`counter_name` AS Counter,
+                `gi_layanan`.`layanan_name` AS Layanan,
+                `gi_statusantri`.`antri_status` AS Status,
+                `gi_queue`.`queue_ambil` AS Tanggal,
+                `gi_queue`.`queue_layani` AS Layani,
+                `gi_queue`.`queue_selesai` AS Selesai
+            FROM `gi_queue`,`gi_layanan`,`gi_counter`,`gi_statusantri`
+            WHERE `gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id` 
+                AND `gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`
+                AND `gi_queue`.`queue_counter` = `gi_counter`.`counter_id`
+                AND (CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
+                    OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
+                    OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
+                    OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
+                    OR `gi_queue`.`queue_ambil` LIKE '%".$search."%') 
+            ORDER BY Tanggal DESC LIMIT ".$start.",".$rows."";
         }
-        
-        $sql = "SELECT 
-            CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) AS Nomor,
-            `gi_counter`.`counter_name` AS Counter,
-            `gi_layanan`.`layanan_name` AS Layanan,
-            `gi_statusantri`.`antri_status` AS Status,
-            `gi_queue`.`queue_ambil` AS Tanggal,
-            `gi_queue`.`queue_layani` AS Layani,
-            `gi_queue`.`queue_selesai` AS Selesai
-        FROM `gi_queue`,`gi_layanan`,`gi_counter`,`gi_statusantri`
-        WHERE `gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id` 
-            AND `gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`
-            AND `gi_queue`.`queue_counter` = `gi_counter`.`counter_id`
-            AND DATE_FORMAT(`gi_queue`.`queue_ambil`,'%d-%m-%Y') = '".$tanggal."'
-            AND (CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
-                OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
-                OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
-                OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
-                OR `gi_queue`.`queue_ambil` LIKE '%".$search."%') 
-        ORDER BY Tanggal DESC LIMIT ".$start.",".$rows."";
         
         return $this->db->query($sql);
     }
@@ -118,21 +180,36 @@ class Model_antrian extends CI_Model {
     function get_count_daftarantrian($tanggal = '', $search) {
         if($tanggal == ''){ 
             $tanggal = mdate("%d-%m-%Y", now());
+
+            $sql = "SELECT 
+                COUNT(*) AS Total
+            FROM `gi_queue`
+            INNER JOIN `gi_layanan` ON (`gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id`)
+            INNER JOIN `gi_counter` ON (`gi_queue`.`queue_counter` = `gi_counter`.`counter_id`)
+            INNER JOIN `gi_statusantri` ON (`gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`)
+            WHERE 
+                DATE_FORMAT(`gi_queue`.`queue_ambil`,'%d-%m-%Y') = '".$tanggal."'
+                AND (CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
+                    OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
+                    OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
+                    OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
+                    OR `gi_queue`.`queue_ambil` LIKE '%".$search."%')";
+        } else {
+            $sql = "SELECT 
+                COUNT(*) AS Total
+            FROM `gi_queue`
+            INNER JOIN `gi_layanan` ON (`gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id`)
+            INNER JOIN `gi_counter` ON (`gi_queue`.`queue_counter` = `gi_counter`.`counter_id`)
+            INNER JOIN `gi_statusantri` ON (`gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`)
+            WHERE 
+                CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
+                    OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
+                    OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
+                    OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
+                    OR `gi_queue`.`queue_ambil` LIKE '%".$search."%'";
         }
         
-        $sql = "SELECT 
-            COUNT(*) AS Total
-        FROM `gi_queue`
-        INNER JOIN `gi_layanan` ON (`gi_queue`.`queue_layanan` = `gi_layanan`.`layanan_id`)
-        INNER JOIN `gi_counter` ON (`gi_queue`.`queue_counter` = `gi_counter`.`counter_id`)
-        INNER JOIN `gi_statusantri` ON (`gi_queue`.`queue_status`= `gi_statusantri`.`antri_id`)
-        WHERE 
-            DATE_FORMAT(`gi_queue`.`queue_ambil`,'%d-%m-%Y') = '".$tanggal."'
-            AND (CONCAT(`gi_layanan`.`layanan_huruf`, LPAD(`gi_queue`.`queue_urutan`, 4, '0' )) LIKE '%".$search."%' 
-                OR `gi_counter`.`counter_name` LIKE '%".$search."%' 
-                OR `gi_layanan`.`layanan_name` LIKE '%".$search."%'
-                OR `gi_statusantri`.`antri_status` LIKE '%".$search."%'
-                OR `gi_queue`.`queue_ambil` LIKE '%".$search."%')";
+        
         
         return $this->db->query($sql);
     }

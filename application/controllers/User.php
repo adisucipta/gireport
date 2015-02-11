@@ -284,5 +284,17 @@ class User extends CI_Controller {
         return $sort_dir;
     }
 
+    function userview() {
+        $this->load->view("auto_view");
+    }
+
+    function getusercomp(){
+        //$this->load->model('birds_model');
+        if (isset($_GET['term'])){
+            $q = strtolower($_GET['term']);
+            $this->model_user->getusercomp($q);
+        }
+    }
+
     
 }

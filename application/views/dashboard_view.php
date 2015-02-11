@@ -220,10 +220,10 @@
                     element: 'grafik-layanan',
                     resize: true,
                     data: $.parseJSON(datalayanan()),
-                    barColors: ['#00a65a', '#f56954', '#33B6EA'],
+                    barColors: ['#00a65a', '#f56954', '#33B6EA','#F39C12','#DF2826'],
                     xkey: 'layanan',
-                    ykeys: ['a', 'b', 'c'],
-                    labels: ['SELESAI', 'ANTRI', 'DILAYANI'],
+                    ykeys: ['a', 'b', 'c', 'd', 'e'],
+                    labels: ['SELESAI', 'ANTRI', 'DILAYANI', 'BATAL', 'SPESIAL'],
                     smooth: true,
                     hideHover: 'auto'
                 });

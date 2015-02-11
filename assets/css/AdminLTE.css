@@ -2512,6 +2512,7 @@ Component: timeline
   margin: 10px auto;
   background: #fff;
   border: 1px solid #f4f4f4;
+  padding: 20px;
 }
 .invoice-title {
   margin-top: 0;

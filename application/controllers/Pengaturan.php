@@ -87,6 +87,9 @@ class Pengaturan extends CI_Controller {
 
     public function gui() {
         $this->load->model('model_user', '', true);
+        $this->load->model('model_counter', '', true);
+        $this->load->model('model_layanan', '', true);
+
         // data header
         $datah['unreadcount'] = $this->model_notif->get_countunread()->row();
         $datah['unreadnotif'] = $this->model_notif->get_notifunread();
@@ -105,10 +108,36 @@ class Pengaturan extends CI_Controller {
             ->set_image_path('assets/guigambar');
             
         $data['imgcrud'] = $image_crud->render();
+        $data['datagui'] = $this->model_counter->getgui();
+        $data['datalayanan'] = $this->model_layanan->getall();
         
         $this->load->view('header_view',$datah);
         $this->load->view('gui_view',$data);
         $this->load->view('footer_view');
+    }
+
+    public function updategui() {
+        $this->load->model('model_counter', '', true);
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('judul-gui', 'Judul','trim|required|strip_tags');
+        $this->form_validation->set_rules('run-gui', 'Running Text','required|strip_tags');
+
+        if($this->form_validation->run() == TRUE){
+                $data = array(
+                    'gui_judul' => addslashes($this->input->post('judul-gui', TRUE)),
+                    'gui_running' => addslashes($this->input->post('run-gui', TRUE))
+                );
+                
+                $this->model_counter->updategui($data);
+                $status['status'] = 1;
+                $status['error'] = '';
+        }else{
+            $status['status'] = 0;
+            $status['error'] = validation_errors();
+        }
+        
+        echo json_encode($status);
     }
 
 }

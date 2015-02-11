@@ -165,7 +165,7 @@
                             <ul class="treeview-menu <?php if(isset($menu_report)){echo 'active';}?>">
                                 <li class="<?php if(isset($menu_antrian)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/antrian"><i class="fa fa-list"></i> Antrian</a></li>
                                 <li class="<?php if(isset($menu_rekap)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/rekapantrian"><i class="fa fa-users"></i> Rekap Antrian</a></li>
-                                <li class="<?php if(isset($menu_survei)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/survei"><i class="fa fa-bar-chart-o"></i> Survei</a></li>
+                                <!-- <li class="<?php if(isset($menu_survei)){echo 'active';}?>"><a href="<?=base_url();?>index.php/report/survei"><i class="fa fa-bar-chart-o"></i> Survei</a></li> -->
                             </ul>
                         </li>
                         <li class="treeview <?php if(isset($menu_atur)){echo 'active';}?>">

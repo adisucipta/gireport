@@ -35,6 +35,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab_1" data-toggle="tab">Gambar</a></li>
                                     <li class=""><a href="#tab_2" data-toggle="tab">Teks</a></li>
+                                    <li class=""><a href="#tab_3" data-toggle="tab">Layanan</a></li>
                                     <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -43,13 +44,49 @@
                                         <?php // print_r($imgcrud);?>
                                     </div><!-- /.tab-pane -->
                                     <div class="tab-pane" id="tab_2">
-                                        The European languages are members of the same family. Their separate existence is a myth.
-                                        For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                                        in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                                        new common language would be desirable: one could refuse to pay expensive translators. To
-                                        achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                                        words. If several languages coalesce, the grammar of the resulting language is more simple
-                                        and regular than that of the individual languages.
+                                        <span id="form-pesan-edit">
+                                        </span>
+                                        <?php echo form_open('pengaturan/updategui', 'id="form-gui"') ?>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Judul</label>
+                                            <input type="text" class="form-control" id="judul-gui" name="judul-gui" placeholder="Judul GUI" value="<?=$datagui->gui_judul?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Running Text</label>
+                                            <input type="text" class="form-control" id="run-gui" name="run-gui" placeholder="Running Text" value="<?=$datagui->gui_running?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btn-simpan" type="button" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                        <?php echo form_close(); ?>
+                                    </div><!-- /.tab-pane -->
+                                    <div class="tab-pane" id="tab_3">
+                                        <span id="form-pesan-layanan">
+                                        </span>
+                                        <table class="table table-bordered">
+                                            <tbody><tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Nama Layanan</th>
+                                                <th style="width: 100px">Kode Huruf</th>
+                                                <th style="width: 60px">Status</th>
+                                                <th style="width: 40px">Opsi</th>
+                                            </tr>
+                                            <?php 
+                                            if(!empty($datalayanan)) { $no = 0;
+                                                foreach ($datalayanan->result() as $key ) { ?>
+                                            <tr>
+                                                <td><?=$no++?>.</td>
+                                                <td><?=$key->layanan_name?></td>
+                                                <td><?=$key->layanan_huruf?></td>
+                                                <td><span class="label label-<?=$key->layanan_enable == 1 ? "success" : "danger";?>"><?=$key->layanan_enable == 1 ? "Aktif" : "Nonaktif";?></span></td>
+                                                <td><a onclick="modaledit('<?=$key->layanan_id?>', '<?=$key->layanan_name?>', '<?=$key->layanan_huruf?>','<?=$key->layanan_enable?>')" class="btn btn-info btn-xs">Edit</a></td>
+                                            </tr>
+                                            <?php } } else {  ?>
+                                                <tr>Belum ada layanan yang ditambahkan.</tr>
+                                            <?php } ?>
+                                            
+                                        </tbody></table>
+                                        <?php echo form_close(); ?>
                                     </div><!-- /.tab-pane -->
                                 </div><!-- /.tab-content -->
                             </div><!-- nav-tabs-custom -->
@@ -66,18 +103,18 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Edit GUI</h4>
+                                <h4 class="modal-title">Edit Layanan</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="box-body table-responsive">
                                     <span id="form-pesan-edit">
                                     </span>
-                                    <?php echo form_open('user/gantipassword', 'id="form-password"') ?>
+                                    <?php echo form_open('pengaturan/updatelayanan', 'id="form-edit"') ?>
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>Username :</label>
+                                                    <label>Nama :</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-user"></i>
@@ -156,6 +193,18 @@
         createUploader();
         loadColorbox();
 });*/
+function modaledit(id, nama, huruf, status){
+    $('#form-pesan-layanan').html('');
+    $('#edit-id').val(id);
+    $('#edit-huruf').val(huruf);
+    $('#edit-nama').val(nama);
+    //$('#edit-role').val(role);
+    $("#edit-status option").filter(function(){
+        return ( ($(this).val() == status) || ($(this).text() == status) );
+    }).prop('selected', true);
+    $('#modal-edit').modal('show');
+}
+
 function loadColorbox()
 {
     $('.color-box').colorbox({
@@ -235,5 +284,34 @@ function saveTitle(data_id, data_title)
 }
 
 window.onload = createUploader;
+$(document).ready(function() {
+                // edit
+                $('#btn-simpan').click(function(){
+                    $('#form-gui').submit();
+                    $('#btn-simpan').addClass('disabled');
+                });
+                $('#form-gui').submit(function(){        
+                    $.ajax({
+                        url:"<?=site_url()?>/pengaturan/updategui",
+                        type:"POST",
+                        data:$('#form-gui').serialize(),
+                        cache: false,
+                        success:function(respon){
+                            var obj = $.parseJSON(respon);
+                            if(obj.status==1){
+                                $('#form-pesan-edit').html(pesan_succ('Data berhasil disimpan !'));
+                                setTimeout(function(){$('#form-pesan-edit').html('')}, 2000);
+                            }else{
+                                $('#form-pesan-edit').html(pesan_err(obj.error));
+                                setTimeout(function(){$('#form-pesan-edit').html('')}, 5000);
+                            }
 
+                            $('#btn-simpan').removeClass('disabled');
+                        }
+                    });
+                    return false;
+                });
+                
+             
+            });
 </script>

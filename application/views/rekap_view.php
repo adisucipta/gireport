@@ -32,8 +32,8 @@
                                     <!-- tools box -->
                                     <div class="pull-right box-tools">
                                         <!-- Date range -->
-                                            <button class="btn btn-info daterange pull-right" data-toggle="tooltip" title="Pilih Tanggal"><i class="fa fa-calendar"></i> Tanggal</button>
-                                            <button class="btn btn-success" onclick="window.print();" data-toggle="tooltip" title="Cetak"><i class="fa fa-print"></i>  Cetak</button>
+                                            <!--  <button class="btn btn-info daterange" data-toggle="tooltip" title="Pilih Tanggal"><i class="fa fa-calendar"></i> Tanggal</button> -->
+<!--                                             <button class="btn btn-success" onclick="cetak()" data-toggle="tooltip" title="Cetak Semua"><i class="fa fa-print"></i>  Cetak</button> -->
                                             <!-- <button class="btn btn-primary" style="margin-right: 3px;" data-toggle="tooltip" title="Buat PDF"><i class="fa fa-download"></i>  Buat PDF</button> -->
                                     </div><!-- /. tools -->
                                 </div>
@@ -123,111 +123,27 @@
                     <!-- main row -->
                     <div class="row">
                         <div class="col-xs-12">
-                            <!-- interactive chart -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h3 class="box-title">Real Time Queue</h3>
-                                    <div class="box-tools pull-right">
-                                        Real time
-                                        <div class="btn-group" id="realtime" data-toggle="btn-toggle">
-                                            <button type="button" class="btn btn-default btn-xs active" data-toggle="on">On</button>
-                                            <button type="button" class="btn btn-default btn-xs" data-toggle="off">Off</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <div id="interactive" style="height: 200px;"></div>
-                                </div><!-- /.box-body-->
-                            </div><!-- /.box -->
-
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    <h3 class="box-title">Status Counter</h3>
-                                </div><!-- /.box-header -->
-                                <div class="box-body no-padding">
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Nama</th>
-                                            <th>IP Address</th>
-                                            <th style="width: 40px">Status</th>
-                                        </tr>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Update software</td>
-                                            <td>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-red">55%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Clean database</td>
-                                            <td>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-yellow">70%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Cron job running</td>
-                                            <td>
-                                                <div class="progress xs progress-striped active">
-                                                    <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-light-blue">30%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Fix and squish bugs</td>
-                                            <td>
-                                                <div class="progress xs progress-striped active">
-                                                    <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-green">90%</span></td>
-                                        </tr>
-                                    </table>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-
-                        </div><!-- /.col -->
-
-                        <div class="col-md-6">
-                            <!-- Bar chart -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h3 class="box-title">Grafik Counter</h3>
-                                </div>
-                                <div class="box-body">
-                                    <div id="bar-chart" style="height: 200px;"></div>
-                                </div><!-- /.box-body-->
-                            </div><!-- /.box -->
-
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    
-                    <div class="row">
-                        <div class="col-xs-12">
                             
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Queue</h3>
+                                    <i class="fa fa-bar-chart-o"></i>
+                                    <h3 class="box-title">Daftar Antrian</h3>
+                                    <div class="pull-right box-tools">
+                                        <!-- Date range -->
+
+                                            <button class="btn btn-success" onclick="cetak(0)" title="Cetak"><i class="fa fa-print"></i>  Cetak</button>
+                                    </div><!-- /. tools -->
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="input-daterange input-group" id="datepicker">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i> Tanggal: </span>
+                                                <input type="text" class="input-sm form-control" name="start" id="filter-start" placeholder="Filter Tanggal">
+                                            </div>
+                                        </div>
+                                        </div><div>&nbsp;</div>
+                                    <table id="daftarantrian" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Nomor</th>
@@ -235,42 +151,10 @@
                                                 <th>Layanan</th>
                                                 <th>Status</th>
                                                 <th>Tanggal</th>
+                                                <th>Opsi</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>A0001</td>
-                                                <td>Internet
-                                                    Explorer 4.0</td>
-                                                <td>Win 95+</td>
-                                                <td> 4</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>A0002</td>
-                                                <td>Internet
-                                                    Explorer 5.0</td>
-                                                <td>Win 95+</td>
-                                                <td>5</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>A0003</td>
-                                                <td>Internet
-                                                    Explorer 5.5</td>
-                                                <td>Win 95+</td>
-                                                <td>5.5</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>B0004</td>
-                                                <td>Internet
-                                                    Explorer 6</td>
-                                                <td>Win 98+</td>
-                                                <td>6</td>
-                                                <td>A</td>
-                                            </tr>
-                                        </tbody>
+                                        
                                         <tfoot>
                                             <tr>
                                                 <th>Nomor</th>
@@ -278,6 +162,7 @@
                                                 <th>Layanan</th>
                                                 <th>Status</th>
                                                 <th>Tanggal</th>
+                                                <th>Opsi</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -286,19 +171,52 @@
 
                         </div><!-- /.col -->
                     </div><!-- /.row -->
+
                 </section><!-- /.content -->
 
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
+
+        <!-- Modal lihat -->
+        <div class="modal fade" id="modal-lihat" data-backdrop="static">
+          <div class="modal-dialog" style="width: 30%;">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title"><i class="fa fa-list"></i> Lihat Detail Antrian</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="box-body">
+                          <dl>
+                              <dt>Nomor</dt>
+                              <dd><span id="lihat-nomor"></span></dd>
+                              <dt>Counter</dt>
+                              <dd><span id="lihat-counter"></span></dd>
+                              <dt>Layanan</dt>
+                              <dd><span id="lihat-layanan"></span></dd>
+                              <dt>Status</dt>
+                              <dd><span id="lihat-status"></span></dd>
+                              <dt>Lama Pelayanan</dt>
+                              <dd><span id="lihat-waktu"></span></dd>
+                          </dl>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+                  </div>
+              </div>
+          </div>
+        </div> <!-- /.modal-lihat -->
         
         <!-- jQuery 2.0.2 -->
         <script src="<?= base_url() ;?>assets/js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?= base_url() ;?>assets/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
         <!-- Bootstrap -->
         <script src="<?= base_url() ;?>assets/js/bootstrap.min.js" type="text/javascript"></script>
         <!-- date-range-picker -->
         <script src="<?= base_url() ;?>assets/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-        <!-- bootstrap time picker -->
-        <script src="<?= base_url() ;?>assets/js/plugins/timepicker/bootstrap-timepicker.min.js" type="text/javascript"></script>
+        <!-- date-picker -->
+        <script src="<?= base_url() ;?>assets/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
         <!-- FLOT CHARTS -->
         <script src="<?=base_url();?>assets/js/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
         <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
@@ -310,171 +228,24 @@
         <!-- DATA TABES SCRIPT -->
         <script src="<?=base_url();?>assets/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
         <script src="<?=base_url();?>assets/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+        <script src="<?=base_url();?>assets/js/plugins/datatables/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+
         
         <!-- Page script -->
         <script type="text/javascript">
-
-            $(function() {
-                
-                $('.daterange').daterangepicker(
-                {
-                    ranges: {
-                        'Hari ini': [moment(), moment()],
-                        'Kemarin': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                        'Bulan ini': [moment().startOf('month'), moment().endOf('month')],
-                        'Bulan kemarin': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                    },
-                    startDate: moment().subtract('days', 29),
-                    endDate: moment()
-                },
-                function(start, end) {
-                    alert("You chose: " + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                });
-
-                /*
-                 * Flot Interactive Chart
-                 * -----------------------
-                 */
-                // We use an inline data source in the example, usually data would
-                // be fetched from a server
-                var data = [], totalPoints = 100;
-                function getRandomData() {
-
-                    if (data.length > 0)
-                        data = data.slice(1);
-
-                    // Do a random walk
-                    while (data.length < totalPoints) {
-
-                        var prev = data.length > 0 ? data[data.length - 1] : 50,
-                                y = prev + Math.random() * 10 - 5;
-
-                        if (y < 0) {
-                            y = 0;
-                        } else if (y > 100) {
-                            y = 100;
-                        }
-
-                        data.push(y);
-                    }
-
-                    // Zip the generated y values with the x values
-                    var res = [];
-                    for (var i = 0; i < data.length; ++i) {
-                        res.push([i, data[i]]);
-                    }
-
-                    return res;
-                }
-
-                var interactive_plot = $.plot("#interactive", [getRandomData()], {
-                    grid: {
-                        borderColor: "#f3f3f3",
-                        borderWidth: 1,
-                        tickColor: "#f3f3f3"
-                    },
-                    series: {
-                        shadowSize: 0, // Drawing is faster without shadows
-                        color: "#3c8dbc"
-                    },
-                    lines: {
-                        fill: true, //Converts the line chart to area chart
-                        color: "#3c8dbc"
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 100,
-                        show: true
-                    },
-                    xaxis: {
-                        show: true
-                    }
-                });
-
-                var updateInterval = 500; //Fetch data ever x milliseconds
-                var realtime = "on"; //If == to on then fetch data every x seconds. else stop fetching
-                function update() {
-
-                    interactive_plot.setData([getRandomData()]);
-
-                    // Since the axes don't change, we don't need to call plot.setupGrid()
-                    interactive_plot.draw();
-                    if (realtime === "on")
-                        setTimeout(update, updateInterval);
-                }
-
-                //INITIALIZE REALTIME DATA FETCHING
-                if (realtime === "on") {
-                    update();
-                }
-                //REALTIME TOGGLE
-                $("#realtime .btn").click(function() {
-                    if ($(this).data("toggle") === "on") {
-                        realtime = "on";
-                    }
-                    else {
-                        realtime = "off";
-                    }
-                    update();
-                });
-                /*
-                 * END INTERACTIVE CHART
-                 */
-
-                /*
-                 * BAR CHART
-                 * ---------
-                 */
-
-                var bar_data = {
-                    data: [["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9]],
-                    color: "#3c8dbc"
-                };
-                $.plot("#bar-chart", [bar_data], {
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: "#f3f3f3",
-                        tickColor: "#f3f3f3"
-                    },
-                    series: {
-                        bars: {
-                            show: true,
-                            barWidth: 0.5,
-                            align: "center"
-                        }
-                    },
-                    xaxis: {
-                        mode: "categories",
-                        tickLength: 0
-                    }
-                });
-                /* END BAR CHART */
-                
-                /* DATA TABLE*/
-                $('#example1').dataTable({
-                    "bPaginate": true,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": true,
-                    "bAutoWidth": true,
-                    "bProcessing": true
-                });
-
-            });
-
-            /*
-             * Custom Label formatter
-             * ----------------------
-             */
-            function labelFormatter(label, series) {
-                return "<div style='font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;'>"
-                        + label
-                        + "<br/>"
-                        + Math.round(series.percent) + "%</div>";
+            function modaldetail(nomor, counter, layanan, status, waktu){
+                $('#lihat-nomor').html(nomor);
+                $('#lihat-counter').html(counter);
+                $('#lihat-layanan').html(layanan);
+                $('#lihat-status').html(status);
+                $('#lihat-waktu').html(waktu);
+                $('#modal-lihat').modal('show');
             }
-        </script>
-        <script type="text/javascript">
+
+            function cetak(ID){
+                newWindow('<?=site_url()?>/report/cetak/'+ID,'Cetak Data Antrian');
+            }
+
             function refresh_jumlah(){
                 $.getJSON('<?=site_url();?>/report/get_totaldatabox/', function(obj) {
                     $('#boxlayani').html(obj.boxlayani);
@@ -489,7 +260,107 @@
                 var auto_refresh = setInterval(
                     function(){
                         refresh_jumlah();
-                    }, 3000
+                    }, 5000
                 );
+                
+                /* DATA TABLE*/
+                var oTable = $('#daftarantrian').dataTable({
+                    "bProcessing": false,
+                    "sPaginationType": "bootstrap",
+                    "bJQueryUI": true,
+                    "iDisplayStart ": 25,
+                    "sAjaxSource": "<?=base_url();?>index.php/report/getfullantrian", //datasource
+                    "bServerSide": true,
+                    "aoColumns": [
+                        {"bSearchable": false, "bSortable": true},
+                        {"bSearchable": false, "bSortable": false},
+                        {"bSearchable": false, "bSortable": false},
+                        {"bSearchable": false, "bSortable": false},
+                        {"bSearchable": false, "bSortable": false},
+                        {"bSearchable": false, "bSortable": false}
+                    ],
+                });
+                //var currentDate = $(".datepick").datepicker("getDate");
+                //oTable.fnFilter(currentDate);
+                setInterval(function(){ 
+                    $('#daftarantrian').dataTable().fnReloadAjax();
+                }, 5000);
+
+                $("#filter-start").datepicker({
+                    format: "yyyy-mm-dd",
+                    autoclose: true,
+                    todayHighlight: true,
+                }).on('changeDate', function(ev){
+                    
+                    $("#daftarantrian_filter input").val(ev.format());
+                    $("#daftarantrian_filter input").trigger("keyup.DT");
+                    //min = new Date(ev.format()).getTime();
+                    //alert(min);
+                    //oTable.fnDraw();
+                });
+
+                /*$("#filter-end").datepicker({
+                    format: "yyyy-mm-dd",
+                    autoclose: true,
+                    todayHighlight: true,
+                }).on('changeDate', function(ev){
+                    //alert(ev.format());
+                    //$("#daftarantrian_filter input").val(ev.format());
+                    max = new Date(ev.format()).getTime();
+                    oTable.fnDraw();
+                });*/
+
+                /*$('.datepick').datepicker({
+                    format: "yyyy-mm-dd",
+                    autoclose: true,
+                });*/
+               
+
             });
+
+            /* Custom filtering function which will search data in column four between two values */
+            $.fn.dataTableExt.afnFiltering.push(
+                function( settings, data, dataIndex ) {
+                    var min = "";
+                    var max = "";
+             
+                    // if (typeof data._date == 'undefined') {
+                        var iDate = new Date(data[4]).getTime() | "";
+                    // }
+
+                    if (min && !isNaN(min)) {
+                        if (iDate < min) {
+                            return false;
+                        }
+                    }
+
+                    if (max && !isNaN(max)) {
+                        if (iDate > max) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            );
+
+            // Date range filter
+            /*DateFilter = "";
+
+            $.fn.dataTableExt.afnFiltering.push(
+              function(oSettings, aData, iDataIndex) {
+                if (typeof aData._date == 'undefined') {
+                  aData._date = new Date(aData[0]).getTime();
+                }
+
+                if (DateFilter && !isNaN(DateFilter)) {
+                  if (aData._date < DateFilter) {
+                    return false;
+                  }
+                }
+
+                return true;
+              }
+            );*/
+
         </script>
